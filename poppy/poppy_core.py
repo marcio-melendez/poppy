@@ -1184,7 +1184,7 @@ class Wavefront(BaseWavefront):
 
         if not np.isscalar(self.pixelscale.value):
             # check for rectangular arrays
-            if self.pixelscale[0] == self.pixelscale[1]:
+            if np.isclose(self.pixelscale[0], self.pixelscale[1]):
                 self.pixelscale = self.pixelscale[0]
                 # we're in a rectangular array with same scale in both directions, so treat pixelscale as a scalar
             else:

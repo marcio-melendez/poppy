@@ -225,7 +225,7 @@ class BaseWavefront(ABC):
         """ Return a wavefront as a pyFITS HDUList object
 
         Parameters
-        -----------
+        ----------
         what : string
             what kind of data to write. Must be one of 'all', 'parts', 'intensity',
             'phase' or 'complex'.  The default is to write intensity.
@@ -310,7 +310,7 @@ class BaseWavefront(ABC):
         """Write a wavefront to a FITS file.
 
         Parameters
-        -----------
+        ----------
         filename : string
             filename to use
         what : string
@@ -927,7 +927,7 @@ class BaseWavefront(ABC):
         passes through a focus.
 
         Parameters
-        ------------
+        ----------
         axis : string
             either 'both', 'x', or 'y', for which axes to invert
 
@@ -1020,7 +1020,7 @@ class Wavefront(BaseWavefront):
         wavefront accordingly.
 
         Parameters
-        -----------
+        ----------
         optic : OpticalElement
             The optic to propagate to. Used for determining the appropriate optical plane.
         """
@@ -1066,7 +1066,7 @@ class Wavefront(BaseWavefront):
         """ Propagate from pupil to image or vice versa using a padded FFT
 
         Parameters
-        -----------
+        ----------
         optic : OpticalElement
             The optic to propagate to. Used for determining the appropriate optical plane.
 
@@ -1132,7 +1132,7 @@ class Wavefront(BaseWavefront):
         """ Compute from pupil to an image using the Soummer et al. 2007 MFT algorithm
 
         Parameters
-        -----------
+        ----------
         det : OpticalElement, must be of type DETECTOR
             The target optical plane to propagate to."""
 
@@ -1484,7 +1484,7 @@ class BaseOpticalSystem(ABC):
         Add a clockwise or counterclockwise rotation around the optical axis
 
         Parameters
-        -----------
+        ----------
         angle : float
             Rotation angle, counterclockwise. By default in degrees.
         index : int
@@ -1505,7 +1505,7 @@ class BaseOpticalSystem(ABC):
         a flip in the sign of the X and Y axes due to passage through a focus.
 
         Parameters
-        -----------
+        ----------
         index : int
             Index into the optical system's planes for where to add the new optic. Defaults to
             appending the optic to the end of the plane list.
@@ -3317,7 +3317,7 @@ class CoordinateInversion(CoordinateTransform):
     The actual inversion happens in Wavefront.propagate_to
 
     Parameters
-    ------------
+    ----------
     axes : string
         either 'both', 'x', or 'y', for which axes to invert
     hide : bool

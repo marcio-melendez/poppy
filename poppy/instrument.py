@@ -325,6 +325,10 @@ class Instrument(object):
             raise ValueError("Maximum number of wavelengths exceeded. "
                              "Cannot be more than 10,000.")
 
+        def wavelength_as_meters(wavelength):
+            """helper function to avoid trying to put a Quantity into a FITS header """
+            return wavelength.to_value(units.meter) if isinstance(wavelength, units.Quantity) else wavelength
+
         # Set up cube and initialize structure based on PSF at first wavelength
         poppy_core._log.info("Starting multiwavelength data cube calculation.")
         psf = self.calc_psf(*args, monochromatic=wavelengths[0], **kwargs)
@@ -333,7 +337,7 @@ class Instrument(object):
         for ext in range(len(psf)):
             cube[ext].data = np.zeros((nwavelengths, psf[ext].data.shape[0], psf[ext].data.shape[1]))
             cube[ext].data[0] = psf[ext].data
-            cube[ext].header[label_wl(0)] = wavelengths[0]
+            cube[ext].header[label_wl(0)] = wavelength_as_meters(wavelengths[0])
 
         iterate_wrapper = utils.get_progressbar_wrapper(progressbar, nwaves=nwavelengths)
         # iterate rest of wavelengths
@@ -342,7 +346,7 @@ class Instrument(object):
             psf = self.calc_psf(*args, monochromatic=wl, **kwargs)
             for ext in range(len(psf)):
                 cube[ext].data[i] = psf[ext].data
-                cube[ext].header[label_wl(i)] = wl
+                cube[ext].header[label_wl(i)] = wavelength_as_meters(wl)
                 cube[ext].header.add_history("--- Cube Plane {} ---".format(i))
                 for h in psf[ext].header['HISTORY']:
                     cube[ext].header.add_history(h)

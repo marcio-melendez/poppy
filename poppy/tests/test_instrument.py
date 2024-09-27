@@ -184,3 +184,17 @@ def test_instrument_calc_datacube():
         "Multi-wavelength PSF does not match weighted sum of individual wavelength PSFs"
 
     return psf
+
+
+def test_instrument_datacube_wavelengths_units():
+    """Test input of datacube wavelengths with and without astropy units """
+    inst = instrument.Instrument()
+
+    psf = inst.calc_datacube(WAVELENGTHS_ARRAY, fov_pixels=FOV_PIXELS,
+                       detector_oversample=2, fft_oversample=2, progressbar=True)
+
+    wavelengths_quantity = WAVELENGTHS_ARRAY * u.meter
+    psf2 = inst.calc_datacube(wavelengths_quantity, fov_pixels=FOV_PIXELS,
+                       detector_oversample=2, fft_oversample=2, progressbar=True)
+
+    assert np.allclose(psf[0].data, psf2[0].data), "Should get same outputs with/without units"

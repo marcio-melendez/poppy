@@ -719,43 +719,52 @@ def test_detector_offsets(plot=False, pixscale=0.01, fov_pixels=100):
     In other words, shifting a source by (+dX,+dY) should look the same as
     shifting the detector by (-dX, -dY)
 
+    And you can specify the detector offsets in units of pixels or just as floats.
+
     """
     source_offset_r = .1
-    for offset_theta in [0, 45, 90, 180]:
+    for with_units in [True, False]:
+        for offset_theta in [0, 45, 90, 180]:
 
-        # Compute offsets from radial to cartesian coords.
-        # recall astronomy convention is PA=0 is +Y, increasing CCW
-        source_offset_x = -source_offset_r * np.sin(np.deg2rad(offset_theta))  # arcsec
-        source_offset_y = source_offset_r * np.cos(np.deg2rad(offset_theta))
-        print(f"offset theta {offset_theta} is x = {source_offset_x}, y = {source_offset_y}")
+            # Compute offsets from radial to cartesian coords.
+            # recall astronomy convention is PA=0 is +Y, increasing CCW
+            source_offset_x = -source_offset_r * np.sin(np.deg2rad(offset_theta))  # arcsec
+            source_offset_y = source_offset_r * np.cos(np.deg2rad(offset_theta))
+            print(f"offset theta {offset_theta} is x = {source_offset_x}, y = {source_offset_y}")
 
-        # Create a PSF with a shifted source
-        offset_source_sys = poppy_core.OpticalSystem(npix=1024, oversample=1)
-        offset_source_sys.add_pupil(optics.ParityTestAperture())
-        offset_source_sys.add_detector(pixelscale=pixscale, fov_pixels=fov_pixels, oversample=1) #, offset=(pixscale/2, pixscale/2))
-        # This interface only has r, theta offsets available. Can't use _x, _y offsets here
-        offset_source_sys.source_offset_r = source_offset_r
-        offset_source_sys.source_offset_theta = offset_theta
-        offset_source_psf = offset_source_sys.calc_psf()
+            # Create a PSF with a shifted source
+            offset_source_sys = poppy_core.OpticalSystem(npix=1024, oversample=1)
+            offset_source_sys.add_pupil(optics.ParityTestAperture())
+            offset_source_sys.add_detector(pixelscale=pixscale, fov_pixels=fov_pixels, oversample=1) #, offset=(pixscale/2, pixscale/2))
+            # This interface only has r, theta offsets available. Can't use _x, _y offsets here
+            offset_source_sys.source_offset_r = source_offset_r
+            offset_source_sys.source_offset_theta = offset_theta
+            offset_source_psf = offset_source_sys.calc_psf()
 
-        # Create a PSF with a shifted detector, the other way
-        offset_det_sys = poppy_core.OpticalSystem(npix=1024, oversample=1)
-        offset_det_sys.add_pupil(optics.ParityTestAperture())
-        offset_det_sys.add_detector(pixelscale=pixscale, fov_pixels=fov_pixels, oversample=1,
-                                    offset=(-source_offset_y/pixscale, -source_offset_x/pixscale))   # Y, X, in pixels
-        offset_det_psf = offset_det_sys.calc_psf()
+            # Create a PSF with a shifted detector, the other way
+            offset_det_sys = poppy_core.OpticalSystem(npix=1024, oversample=1)
+            offset_det_sys.add_pupil(optics.ParityTestAperture())
 
-        if plot:
-            fig, axes = plt.subplots(figsize=(16,9), ncols=3)
-            poppy.display_psf(offset_source_psf, ax=axes[0], crosshairs=True, colorbar=False,
-                              title=f'Offset Source: {source_offset_x:.3f} arcsec, {source_offset_y:.3f}')
-            poppy.display_psf(offset_det_psf, ax=axes[1], crosshairs=True, colorbar=False,
-                              title=f'Offset Det: {offset_det_sys.planes[-1].offset[1]:.2f},  {offset_det_sys.planes[-1].offset[0]:.2f} pix')
-            poppy.display_psf_difference(offset_source_psf, offset_det_psf, ax=axes[2],
-                                         title='difference', colorbar=False)
+            det_offset = (-source_offset_y/pixscale, -source_offset_x/pixscale)   # Y, X in pixels
+            if with_units:
+                det_offset = np.asarray(det_offset) * u.pixel
+            offset_det_sys.add_detector(pixelscale=pixscale, fov_pixels=fov_pixels, oversample=1,
+                                        offset=det_offset)
+            offset_det_psf = offset_det_sys.calc_psf()
 
-        # Check the equality of the two results from the two above
-        assert np.allclose(offset_source_psf[0].data, offset_det_psf[0].data), "Offset source and offset detector the opposite way should be equivalent"
+            if plot:
+                fig, axes = plt.subplots(figsize=(16,9), ncols=3)
+                poppy.display_psf(offset_source_psf, ax=axes[0], crosshairs=True, colorbar=False,
+                                  title=f'Offset Source: {source_offset_x:.3f} arcsec, {source_offset_y:.3f}')
+                poppy.display_psf(offset_det_psf, ax=axes[1], crosshairs=True, colorbar=False,
+                                  title=f'Offset Det: {offset_det_sys.planes[-1].offset[1]:.2f},  {offset_det_sys.planes[-1].offset[0]:.2f} pix')
+                poppy.display_psf_difference(offset_source_psf, offset_det_psf, ax=axes[2],
+                                             title='difference', colorbar=False)
+
+            # Check the equality of the two results from the two above
+            assert np.allclose(offset_source_psf[0].data, offset_det_psf[0].data), "Offset source and offset detector the opposite way should be equivalent"
+
+
 
 
 # Tests for CompoundOpticalSystem

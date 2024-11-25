@@ -3402,15 +3402,23 @@ class Detector(OpticalElement):
 
         if offset is not None:
             if len(offset) != 2:
-                raise ValueError("If a detector offset is specified, it must be a tuple or list with 2 elements, giving the (X, Y) offsets.")
+                raise ValueError("If a detector offset is specified, it must be a tuple or list with 2 elements, "
+                                 "giving the (X, Y) offsets.")
+            # The offset is specified in pixels, so this can have units of pixels,
+            # or else if an integer or float, that's considered as implicitly a number of pixels
+            if isinstance(offset, u.Quantity):
+                try:
+                    offset = offset.to_value(u.pixel)
+                except u.UnitConversionError:
+                    raise(ValueError(f"A detector offset must be specified in units of detector pixels, not '{offset.unit}'"))
             offset = np.asarray(offset)  # ensure it's an ndarray, not just a list or tuple
-            # todo, do something sensible with units. These should have units consistent with the detector pixescale without the /pixel part
-            # note the detector pixelscale can be in arcsec/pix or meters/pix, depending on context
-        # a note on sign convention for detector offset. This is regrettably confusing.
-        # The implementation in matrixDFT has the sense of "how much should the source be offset", i.e. an offset of +5 pix moves the source by +5 pix.
-        # However, physically we would like the opposite sign convention. Moving the detector by +5 pix should move the source by -5 pix.
-        # This is implemented by a sign flip multplication by -1 which is applied in the _propagate_mft methods.
-        # That could just be a hard-coded -1, but we choose to implement as a named variable to help make this logic clear later to readers of the code.
+        # A note on sign convention for detector offset: (This is regrettably confusing.)
+        #    The implementation in matrixDFT has the sense of "how much should the source be offset",
+        #    i.e. an offset of +5 pix moves the source by +5 pix.
+        #    However, physically we would like the opposite sign convention:  Moving the detector by +5 pix
+        #    should move the source by -5 pix.  This is implemented by a sign flip multplication by -1
+        #    which is applied in the _propagate_mft methods. That could just be a hard-coded -1,
+        #    but we choose to implement as a named variable to help make this logic clear later to readers of this code:
         self.offset = offset
         self._offset_sign = -1
 

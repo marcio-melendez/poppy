@@ -318,6 +318,9 @@ class Instrument(object):
         else:
             raise ValueError("Maximum number of wavelengths exceeded. "
                              "Cannot be more than 10,000.")
+        # Handle astropy Quantities, if needed
+        if isinstance(wavelengths, units.Quantity):
+            wavelengths = wavelengths.to_value(units.meter)
 
         # Set up cube and initialize structure based on PSF at first wavelength
         poppy_core._log.info("Starting multiwavelength data cube calculation.")

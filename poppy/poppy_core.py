@@ -1171,9 +1171,12 @@ class Wavefront(BaseWavefront):
         _log.debug(msg)
         self.history.append(msg)
 
+        if det.offset is not None:
+            _log.debug('      offset= '+str( det.offset))
         _log.debug('      MFT method = ' + mft.centering)
 
-        self.wavefront = mft.perform(self.wavefront, det_fov_lam_d, det_calc_size_pixels)
+        self.wavefront = mft.perform(self.wavefront, det_fov_lam_d, det_calc_size_pixels,
+                                     offset=None if det.offset is None else det.offset * det._offset_sign)  # sign flip intentional, see note in Detector class
         _log.debug("     Result wavefront: at={0} shape={1} ".format(
             self.location, str(self.shape)))
         self._last_transform_type = 'MFT'
@@ -3379,6 +3382,11 @@ class Detector(OpticalElement):
     oversample : int
         Oversampling factor beyond the detector pixel scale. The returned array will
         have sampling that much finer than the specified pixelscale.
+    offset : 2-tuple of floats
+        Offset (Y,X) in *pixels* for shifting the detector relative to the notional center of the output beam.
+        This has similar effect to shifting the source, but with opposite sign.
+        In other words, shifting a light source +1 arcsec in Y should have the same effect as
+        shifting the detector -1 arcsec in Y.
     """
 
     # Note, pixelscale argument is intentionally not included in the quantity_input decorator; that is
@@ -3386,10 +3394,33 @@ class Detector(OpticalElement):
     @utils.quantity_input(fov_pixels=u.pixel, fov_arcsec=u.arcsec)
     def __init__(self, pixelscale=1 * (u.arcsec / u.pixel), fov_pixels=None, fov_arcsec=None, oversample=1,
                  name="Detector",
+                 offset=None,
                  **kwargs):
         OpticalElement.__init__(self, name=name, planetype=PlaneType.detector, **kwargs)
         self.pixelscale = self._handle_pixelscale_units_flexibly(pixelscale, fov_pixels)
         self.oversample = oversample
+
+        if offset is not None:
+            if len(offset) != 2:
+                raise ValueError("If a detector offset is specified, it must be a tuple or list with 2 elements, "
+                                 "giving the (X, Y) offsets.")
+            # The offset is specified in pixels, so this can have units of pixels,
+            # or else if an integer or float, that's considered as implicitly a number of pixels
+            if isinstance(offset, u.Quantity):
+                try:
+                    offset = offset.to_value(u.pixel)
+                except u.UnitConversionError:
+                    raise(ValueError(f"A detector offset must be specified in units of detector pixels, not '{offset.unit}'"))
+            offset = np.asarray(offset)  # ensure it's an ndarray, not just a list or tuple
+        # A note on sign convention for detector offset: (This is regrettably confusing.)
+        #    The implementation in matrixDFT has the sense of "how much should the source be offset",
+        #    i.e. an offset of +5 pix moves the source by +5 pix.
+        #    However, physically we would like the opposite sign convention:  Moving the detector by +5 pix
+        #    should move the source by -5 pix.  This is implemented by a sign flip multplication by -1
+        #    which is applied in the _propagate_mft methods. That could just be a hard-coded -1,
+        #    but we choose to implement as a named variable to help make this logic clear later to readers of this code:
+        self.offset = offset
+        self._offset_sign = -1
 
         if fov_pixels is None and fov_arcsec is None:
             raise ValueError("Either fov_pixels or fov_arcsec must be specified!")

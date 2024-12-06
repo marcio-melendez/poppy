@@ -586,7 +586,7 @@ def radial_profile(hdulist_or_filename=None, ext=0, ee=False, center=None, stdde
         the minimum in each radial bin.
 
     Returns
-    --------
+    -------
     results : tuple
         Tuple containing (radius, profile) or (radius, profile, EE) depending on what is requested.
         The radius gives the center radius of each bin, while the EE is given inside the whole bin
@@ -754,7 +754,7 @@ def measure_ee(hdulist_or_filename=None, ext=0, center=None, binsize=None, norma
         Default is no normalization (i.e. retain whatever normalization was used in computing the PSF itself)
 
     Returns
-    --------
+    -------
     encircled_energy: function
         A function which will return the encircled energy interpolated to any desired radius.
 
@@ -800,7 +800,7 @@ def measure_radius_at_ee(hdulist_or_filename=None, ext=0, center=None, binsize=N
         Default is no normalization (i.e. retain whatever normalization was used in computing the PSF itself)
 
     Returns
-    --------
+    -------
     radius: function
         A function which will return the radius of a desired encircled energy.
 
@@ -841,7 +841,7 @@ def measure_radial(hdulist_or_filename=None, ext=0, center=None, binsize=None):
         size of step for profile. Default is pixel size.
 
     Returns
-    --------
+    -------
     radial_profile: function
         A function which will return the mean PSF value at any desired radius.
 
@@ -1175,7 +1175,7 @@ def pad_to_size(array, padded_shape):
 
 
     See Also
-    ---------
+    --------
     pad_to_oversample, pad_or_crop_to_shape
     """
     if len(padded_shape) < 2:
@@ -1496,7 +1496,7 @@ def spectrum_from_spectral_type(sptype, return_list=False, catalog=None):
     convenient access function.
 
     Parameters
-    -----------
+    ----------
     sptype : str
         Spectral type, like "G0V"
     catalog : str

@@ -324,6 +324,9 @@ class Instrument(object):
         else:
             raise ValueError("Maximum number of wavelengths exceeded. "
                              "Cannot be more than 10,000.")
+        # Handle astropy Quantities, if needed
+        if isinstance(wavelengths, units.Quantity):
+            wavelengths = wavelengths.to_value(units.meter)
 
         def wavelength_as_meters(wavelength):
             """helper function to avoid trying to put a Quantity into a FITS header """

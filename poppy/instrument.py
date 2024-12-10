@@ -298,7 +298,7 @@ class Instrument(object):
         else:
             return result
 
-    def calc_datacube(self, wavelengths, progressbar=False, *args, **kwargs):
+    def calc_datacube(self, wavelengths, progressbar=False, outfile=None, overwrite=True, *args, **kwargs):
         """Calculate a spectral datacube of PSFs
 
         Parameters
@@ -311,7 +311,12 @@ class Instrument(object):
             while iterating over wavelengths. Note, this requires the
             optional dependency package 'tqdm', which is not included as
             a requirement.
+        outfile : string
+            Filename to write. If None, then result is returned as an HDUList
+        overwrite : bool
+            overwrite output FITS file if it already exists?
 
+        Additional parameters are passed through to calc_datacube
         """
 
         # Allow up to 10,000 wavelength slices. The number matters because FITS
@@ -355,6 +360,11 @@ class Instrument(object):
                     cube[ext].header.add_history(h)
 
         cube[0].header['NWAVES'] = nwavelengths
+        if outfile is not None:
+            cube[0].header["FILENAME"] = (os.path.basename(outfile), "Name of this file")
+            cube.writeto(outfile, overwrite=overwrite)
+            poppy_core._log.info("Saved result to " + outfile)
+
         return cube
 
     def _calc_psf_format_output(self, result, options):

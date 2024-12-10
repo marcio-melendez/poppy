@@ -21,7 +21,7 @@ if accel_math._NUMEXPR_AVAILABLE:
     import numexpr as ne
 
 __all__ = ['ContinuousDeformableMirror', 'HexSegmentedDeformableMirror', 'CircularSegmentedDeformableMirror',
-           'WedgeSegmentedDeformableMirror']
+           'KeystoneSegmentedDeformableMirror']
 
 
 # noinspection PyUnresolvedReferences
@@ -851,7 +851,7 @@ class CircularSegmentedDeformableMirror(SegmentedDeformableMirror, optics.MultiC
 
 
 # note, must inherit first from SegmentedDeformableMirror to get correct method resolution order
-class WedgeSegmentedDeformableMirror(SegmentedDeformableMirror, optics.WedgeSegmentedCircularAperture):
+class KeystoneSegmentedDeformableMirror(SegmentedDeformableMirror, optics.KeystoneSegmentedCircularAperture):
     """ Circularly segmented DM. Each actuator is controllable in piston, tip, and tilt (and any zernike term)
 
             Parameters
@@ -873,9 +873,9 @@ class WedgeSegmentedDeformableMirror(SegmentedDeformableMirror, optics.WedgeSegm
     def __init__(self, name='WedgeSegDM', radius=1.0 * u.m, rings=1, nsections=4, gap_radii=None, gap=0.01 * u.m,
                  include_factor_of_two=False, **kwargs):
         #FIXME ? using grey pixel does not work. something in the geometry module generate a true divide error
-        optics.WedgeSegmentedCircularAperture.__init__(self, name=name, radius=radius, rings=rings,
-                                              nsections=nsections, gap_radii=gap_radii,
-                                              gap=gap,   **kwargs)
+        optics.KeystoneSegmentedCircularAperture.__init__(self, name=name, radius=radius, rings=rings,
+                                                          nsections=nsections, gap_radii=gap_radii,
+                                                          gap=gap, **kwargs)
         SegmentedDeformableMirror.__init__(self, rings=rings, include_factor_of_two=include_factor_of_two)
 
 
@@ -884,4 +884,4 @@ class WedgeSegmentedDeformableMirror(SegmentedDeformableMirror, optics.WedgeSegm
         # edges of segments. This approach results in the DM segment maps covering the segment gaps better, to
         # accomodate 'gray' pixels in the transmission map
         super()._setup_arrays(npix, pixelscale, wave=wave)
-        self._transmission = optics.WedgeSegmentedCircularAperture.get_transmission(self, wave)
+        self._transmission = optics.KeystoneSegmentedCircularAperture.get_transmission(self, wave)

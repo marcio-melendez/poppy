@@ -24,7 +24,8 @@ __all__ = ['AnalyticOpticalElement', 'ScalarTransmission', 'ScalarOpticalPathDif
            'BandLimitedCoron', 'BandLimitedCoronagraph', 'IdealFQPM', 'CircularPhaseMask', 'RectangularFieldStop', 'SquareFieldStop',
            'AnnularFieldStop', 'HexagonFieldStop',
            'CircularOcculter', 'BarOcculter', 'FQPM_FFT_aligner', 'CircularAperture',
-           'HexagonAperture', 'MultiHexagonAperture', 'NgonAperture', 'MultiCircularAperture', 'WedgeSegmentedCircularAperture', 'RectangleAperture',
+           'HexagonAperture', 'MultiHexagonAperture', 'NgonAperture', 'MultiCircularAperture',
+           'KeystoneSegmentedCircularAperture', 'RectangleAperture',
            'SquareAperture', 'SecondaryObscuration', 'LetterFAperture', 'AsymmetricSecondaryObscuration',
            'ThinLens',  'GaussianAperture', 'KnifeEdge', 'TiltOpticalPathDifference', 'CompoundAnalyticOptic', 'fixed_sampling_optic']
 
@@ -1588,7 +1589,7 @@ class MultiCircularAperture(MultiSegmentAperture):
         return self.transmission
 
 
-class WedgeSegmentedCircularAperture(MultiSegmentAperture, CircularAperture):
+class KeystoneSegmentedCircularAperture(MultiSegmentAperture, CircularAperture):
     @utils.quantity_input(radius=u.meter, gap=u.meter)
     def __init__(self, name=None, radius=1.0 * u.meter,
                  rings=2, nsections=4, gap_radii=None, gap=0.01 * u.meter,

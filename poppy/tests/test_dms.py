@@ -201,7 +201,7 @@ def test_basic_wedge_dm():
     """ A simple test for the circularly segmented deformable mirror code -
     can we move actuators, and does adding nonzero WFE result in decreased Strehl?"""
 
-    dm = dms.WedgeSegmentedDeformableMirror(rings=2, nsections=[1,6])
+    dm = dms.KeystoneSegmentedDeformableMirror(rings=2, nsections=[1, 6])
 
     osys = poppy_core.OpticalSystem(npix=256)
     osys.add_pupil(dm)

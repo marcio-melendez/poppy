@@ -242,6 +242,7 @@ class ContinuousDeformableMirror(optics.AnalyticOpticalElement):
     @utils.quantity_input(new_value=u.meter)
     def set_actuator(self, actx, acty, new_value):
         """ Set an individual actuator of the DM.
+
         Parameters
         -------------
         actx, acty : integers
@@ -249,9 +250,11 @@ class ContinuousDeformableMirror(optics.AnalyticOpticalElement):
         new_value : float
             Desired surface height for that actuator, in meters
             by default or use astropy Units to specify another unit if desired.
+
         Example
         -----------
         dm.set_actuator(12, 22, 123.4*u.nm)
+
         """
 
         if self.include_actuator_mask:
@@ -558,6 +561,7 @@ class ContinuousDeformableMirror(optics.AnalyticOpticalElement):
 
     def display(self, annotate=False, grid=False, what='opd', crosshairs=False, *args, **kwargs):
         """Display an Analytic optic by first computing it onto a grid.
+
         Parameters
         ----------
         wavelength : float
@@ -585,6 +589,7 @@ class ContinuousDeformableMirror(optics.AnalyticOpticalElement):
             Draw annotations on plot
         grid : bool
             Show the grid for the DM actuator spacing
+
         """
 
         kwargs['crosshairs'] = crosshairs

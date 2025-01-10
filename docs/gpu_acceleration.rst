@@ -63,14 +63,14 @@ Performances will naturally vary depending on the compute hardware used. The sys
 for these comparisons was the University of Arizona’s HPC Puma nodes. The node utilized 
 32 AMD EPYC 7642 CPUs and the NVIDIA Tesla V100S GPU.
 
-+------------------+------------+----------------------+-----------------------+-----------------+
-| Propagation Type | Array Size | MKL Method Times [s] | CuPy Method Times [s] | Speed Up Factor |
-+==================+============+======================+=======================+=================+
-| Fraunhofer       | 1024       | 0.218                | 0.0261                | 8.35            |
-| Fraunhofer       | 2048       | 0.755                | 0.0294                | 25.7            |
-| Fraunhofer       | 4096       | 3.36                 | 0.0423                | 79.4            |
-| Fresnel          | 1024       | 0.714                | 0.0438                | 16.3            |
-| Fresnel          | 2048       | 4.16                 | 0.0845                | 49.2            |
-| Fresnel          | 4096       | 17.5                 | 0.225                 | 77.8            |
-+------------------+------------+----------------------+-----------------------+-----------------+
+================== ============ ====================== ======================= =================
+ Propagation Type   Array Size   MKL Method Times [s]   CuPy Method Times [s]   Speed Up Factor 
+================== ============ ====================== ======================= =================
+ Fraunhofer         1024         0.218                  0.0261                  8.35            
+ Fraunhofer         2048         0.755                  0.0294                  25.7            
+ Fraunhofer         4096         3.36                   0.0423                  79.4            
+ Fresnel            1024         0.714                  0.0438                  16.3            
+ Fresnel            2048         4.16                   0.0845                  49.2            
+ Fresnel            4096         17.5                   0.225                   77.8            
+================== ============ ====================== ======================= =================
 

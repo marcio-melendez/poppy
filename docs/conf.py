@@ -99,6 +99,7 @@ exclude_patterns = [
     ".DS_Store",
     "_templates",
     "**.ipynb_checkpoints",
+    "figures/**.ipynb",
 ]
 
 # The name of the Pygments (syntax highlighting) style to use.

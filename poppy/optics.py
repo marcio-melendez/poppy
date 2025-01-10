@@ -2187,6 +2187,7 @@ class CompoundAnalyticOptic(AnalyticOpticalElement):
                     trans = trans1*trans2)
             'or'  : resulting transmission is sum of constituents, with overlap
                     subtracted.  (E.g. trans = trans1 + trans2 - trans1*trans2)
+
         In both methods, the resulting OPD is the sum of the constituents' OPDs.
 
     """

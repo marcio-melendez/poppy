@@ -29,7 +29,7 @@ This is a very minor re-release, to fix some documentation formatting and releas
  * Tried Python 3.8 with ReadTheDocs instead by :user:`ojustino` in :pr:`514`
  * Fix position angle rotation passthrough for TiltOpticalPathDifference by :user:`evanmayer` in :pr:`524`
  * Fix units error in MultiHexagonAperture, see #485 by :user:`mperrin` in :pr:`527`
- * replacing np.float with np.float_ per Issue 544 by :user:`adambolton` in :pr:`545`
+ * replacing `np.float` with `np.float_` per Issue 544 by :user:`adambolton` in :pr:`545`
  * Update minimum versions across the board including remove python 3.8 and adding pythong 3.11 by :user:`BradleySappington` in :pr:`551`
  * add option to mark levels in display_ee by :user:`douglase` in :pr:`540`
  * minor: misc PEP8 code style consistency reformatting  by :user:`mperrin` in :pr:`554`
@@ -106,7 +106,7 @@ This is a major release with significant enhancements and changes, in particular
 
     This release includes optical algorithm updates after a thorough audit and cross-check of sign conventions for phase and wavefront error, disambiguating portions of the
     sign conventions and code to ensure consistency with several other relevant optical modeling packages. Poppy now strictly follows the sign conventions as advocated in e.g.
-    Wyant and Creath's `Basic Wavefront Aberration Theory for Optical Metrology <https://ui.adsabs.harvard.edu/abs/1992aooe...11....2W/abstract>`_ (or see `here <https://wp.optics.arizona.edu/jcwyant/wp-content/uploads/sites/13/2016/08/03-BasicAberrations_and_Optical_Testing.pdf>`_). This makes poppy consistent with the convention more widely used in optical metrology and other optical software such as Code V; however this is not consistent with some other reference such as Goodman's classic text *Fourier Optics*.
+    Wyant and Creath's `Basic Wavefront Aberration Theory for Optical Metrology <https://ui.adsabs.harvard.edu/abs/1992aooe...11....2W/abstract>`_ (or see `the paper here <https://wp.optics.arizona.edu/jcwyant/wp-content/uploads/sites/13/2016/08/03-BasicAberrations_and_Optical_Testing.pdf>`_). This makes poppy consistent with the convention more widely used in optical metrology and other optical software such as Code V; however this is not consistent with some other reference such as Goodman's classic text *Fourier Optics*.
 
     To achieve that consistency, *this is a partially back-incompatible release*, with
     changes in the signs of complex exponentials in some Fourier propagation calculations. Depending on your use case this may result in some changes in output PSFs or
@@ -125,10 +125,10 @@ This is a major release with significant enhancements and changes, in particular
     The prior function names also continue to work as aliases for backwards compatibility.  (:pr:`471` by :user:`mperrin`)
 
 **New Functionality:**
- * New class :py:obj:`~poppy.TipTiltStage`, which allows putting additional tip-tilt on any arbitrary optic, and adjusting/controlling the tip and tilt. See `here <https://poppy-optics.readthedocs.io/en/latest/available_optics.html#Tip-Tilt-Stage>`_ for example. (:pr:`414` by :user:`mperrin`)
- * New class :py:obj:`~poppy.CircularSegmentedDeformableMirror`, which models an aperture comprising several individually-controllable circular mirrors. See `here <https://poppy-optics.readthedocs.io/en/latest/available_optics.html#Circularly-Segmented-Deformable-Mirrors>`_ for example. (:pr:`407` and :pr:`424` by :user:`Teusia`)
- * New class :py:obj:`~poppy.KolmogorovWFE`, which models the phase distortions in a turbulent atmosphere. See `this notebook <https://github.com/spacetelescope/poppy/blob/develop/notebooks/Propagation%20through%20turbulent%20atmosphere.ipynb>`_ for details. (:pr:`437` by :user:`DaPhil`)
- * New class :py:obj:`~poppy.ThermalBloomingWFE`, which models the change in WFE from heating of air (or other transmission medium) due to high powered laser beams. See `this notebook <https://github.com/spacetelescope/poppy/blob/develop/notebooks/Thermal%20Blooming%20Demo.ipynb>`_ for details. (:pr:`438` by :user:`DaPhil`)
+ * New class :py:obj:`~poppy.TipTiltStage`, which allows putting additional tip-tilt on any arbitrary optic, and adjusting/controlling the tip and tilt. See `the tip-tilt documentation <https://poppy-optics.readthedocs.io/en/latest/available_optics.html#Tip-Tilt-Stage>`_ for example. (:pr:`414` by :user:`mperrin`)
+ * New class :py:obj:`~poppy.CircularSegmentedDeformableMirror`, which models an aperture comprising several individually-controllable circular mirrors. See `the circularly segmented deformable mirrors documentation <https://poppy-optics.readthedocs.io/en/latest/available_optics.html#Circularly-Segmented-Deformable-Mirrors>`_ for example. (:pr:`407` and :pr:`424` by :user:`Teusia`)
+ * New class :py:obj:`~poppy.KolmogorovWFE`, which models the phase distortions in a turbulent atmosphere. See `the propagation through atmosphere notebook <https://github.com/spacetelescope/poppy/blob/develop/notebooks/Propagation%20through%20turbulent%20atmosphere.ipynb>`_ for details. (:pr:`437` by :user:`DaPhil`)
+ * New class :py:obj:`~poppy.ThermalBloomingWFE`, which models the change in WFE from heating of air (or other transmission medium) due to high powered laser beams. See `the thermal blooming notebook <https://github.com/spacetelescope/poppy/blob/develop/notebooks/Thermal%20Blooming%20Demo.ipynb>`_ for details. (:pr:`438` by :user:`DaPhil`)
 
 
 **Other enhancements and fixes:**
@@ -195,7 +195,7 @@ This release includes several updated optical element classes, bug fixes, and im
 This is a minor release primarily for updates in packaging infrastructure, plus a handful of small enhancements related to datacubes, segmented apertures, and new functionality for subsampled optics.
 
 **New Functionality:**
- * Adds new `Subapertures` class for modeling subsampled optics (i.e. optics that have multiple spatially disjoint output beams). Adds `ShackHartmannWavefrontSensor` class to model that type of sensor. See `this notebook <https://github.com/spacetelescope/poppy/blob/develop/notebooks/Shack%20Hartmann%20Wavefront%20Sensor%20Demo.ipynb>`_ for details and example codes. (:pr:`346` thanks to :user:`remorgan01` and :user:`douglase`)
+ * Adds new `Subapertures` class for modeling subsampled optics (i.e. optics that have multiple spatially disjoint output beams). Adds `ShackHartmannWavefrontSensor` class to model that type of sensor. See `the Shack Hartmann Wavefront Sensor notebook <https://github.com/spacetelescope/poppy/blob/develop/notebooks/Shack%20Hartmann%20Wavefront%20Sensor%20Demo.ipynb>`_ for details and example codes. (:pr:`346` thanks to :user:`remorgan01` and :user:`douglase`)
 
 **Other enhancements and fixes:**
  * `calc_datacube` function now allows `nwavelengths>100`, removing a prior limitation of this function. (:pr:`351` by :user:`ojustino`)
@@ -344,7 +344,7 @@ improved upon in a future release.
 .. admonition:: Python version support: Future releases will require Python 3.
 
     Please note, this is the *final* release to support Python 2.7. All
-    future releases will require Python 3.5+. See `here <https://python3statement.org>`_ for more information on migrating to Python 3.
+    future releases will require Python 3.5+. See `Python 3 statement <https://python3statement.org>`_ for more information on migrating to Python 3.
 
 .. admonition:: Deprecated function names will go away in next release.
 
@@ -378,7 +378,7 @@ improved upon in a future release.
 **New Functionality:**
 
  * New `PhysicalFresnelWavefront` class that uses physical units for the wavefront (e.g.
-   volts/meter) and intensity (watts). See `this notebook
+   volts/meter) and intensity (watts). See `the physical units demo notebook
    <https://github.com/spacetelescope/poppy/blob/stable/notebooks/Physical%20Units%20Demo.ipynb>`_ for
    examples and further discussion.  (`#248 <https://github.com/spacetelescope/poppy/pull/248>`, @daphil).
  * `calc_psf` gains a new parameter to request returning the complex wavefront (`#234

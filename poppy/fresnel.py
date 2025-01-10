@@ -181,7 +181,7 @@ class FixedSamplingImagePlaneElement(FITSOpticalElement):
     for FITSOpticalElements. These additional parameters are listed below.
 
     Parameters not in FITSOpticalElement
-    ----------
+    ------------------------------------
     wavelength_c: astropy.quantity
         Central wavelength of the user's system, required in order to
         convert the pixelscale to units of lambda/D and scale the

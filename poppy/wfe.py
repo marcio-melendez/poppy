@@ -382,30 +382,32 @@ class PowerSpectrumWFE(WavefrontError):
     :math:`P(k) = \frac{\beta} {\left( \left(\frac{1}{L_{0}}\right)^{2} + |k|^{2} \right)^{{\alpha/2}}} e^{-(|k|l_{0})^{2}} + \beta_{sr}`
     
     where:
-    P: astropy quantity
+
+    P : astropy quantity
         Power Spectral Density at a spatial frequency.
         Units: :math: `m^{2}m^{2}`
         Assumes surface units of meters (first :math: `m^{2}`)
-    k: astropy quantity
+    k : astropy quantity
         Spatial frequency value, units 1/m
-    :math:`\alpha`: float 
+    :math:`\alpha` : float 
         The PSD index value 
-    :math:`\beta`: astropy quantity
+    :math:`\beta` : astropy quantity
         The normalization constant. In units of :math: `\frac{m^{2}}{m^{\alpha-2}}`
         Numerator assumes surface units of meters
         Denominator assumes spatial frequency units are 1/m
-    :math:`L_{0}`: astropy quantity
+    :math:`L_{0}` : astropy quantity
         The outer scale value, where the low spatial frequency flattens. Units: m
-    :math:`l_{0}`: float
+    :math:`l_{0}` : float
         Inner scale value, where the high spatial frequency flattens.
-    :math:`\beta_{sr}`: astropy quantity
+    :math:`\beta_{sr}` : astropy quantity
         Surface roughness normalization. Should match units of PSD.
     
-    References:
-    Males, Jared. MagAO-X Preliminary-Design Review, 
-        Section 5.1: Optics Specifications, Eqn 1
-        https://magao-x.org/docs/handbook/appendices/pdr/
-    Lumbres, et al. In Prep.
+    References
+    ----------
+    * Males, Jared. MagAO-X Preliminary-Design Review, 
+      Section 5.1: Optics Specifications, Eqn 1
+      https://magao-x.org/docs/handbook/appendices/pdr/
+    * Lumbres, et al. In Prep.
 
     Parameters
     ----------
@@ -417,48 +419,52 @@ class PowerSpectrumWFE(WavefrontError):
         i.e. [ [PSD_list_0], [PSD_list_1]]
         The PSD parameters in a list are ordered as follows:
         [alpha, beta, outer_scale, inner_scale, surf_roughness]
+
         where:            
-            alpha: float 
+
+            alpha : float 
                 The PSD index value.
-            beta: astropy quantity
+            beta : astropy quantity
                 The normalization constant. In units of :math: `\frac{m^{2}}{m^{\alpha-2}}`
                 Numerator assumes surface units of meters
                 Denominator assumes spatial frequency units are 1/m
-            outer_scale: astropy quantity
+            outer_scale : astropy quantity
                 The outer scale value, where the low spatial frequency flattens. 
                 Unit requirement: meters
-            inner_scale: float
+            inner_scale : float
                 Inner scale value, where the high spatial frequency flattens.
-            surf_roughness: astropy quantity
+            surf_roughness : astropy quantity
                 Surface roughness normalization. Should match units of PSD.
-    psd_weight: iterable list of floats
+
+    psd_weight : iterable list of floats
         Specifies the weight multiplier to set onto each model PSD
     seed : integer
         Seed for the random phase screen generator
-    apply_reflection: boolean
+    apply_reflection : boolean
         Applies 2x scale for the OPD as needed for reflection.
         Default to False. 
         Set to True if the PSD model only accounts for surface.
-    screen_size: integer
+    screen_size : integer
         Sets how large the PSD matrix will be calculated.
         The PSD matrix needs to be larger than the wavefront for Fourier transform padding purposes.
         If None passed in, then code will default size to 4x wavefront's side.
         Default to None.
-    rms: astropy quantity
+    rms : astropy quantity
         Optional. Use this to force the wfe RMS
         If a value is passed in, this is the surface rms value (not OPD) in meters.
         If None passed, then the wfe RMS produced is what shows up in PSD calculation.
         Default to None.
-    incident_angle: astropy quantity
+    incident_angle : astropy quantity
         Adjusts the WFE based on reflected beam distortion.
         Does not distort the beam (remains circular), but will get the rms equivalent value.
         Can be passed as either degrees or radians.
         Default is 0 degrees (paraxial).
-    radius: astropy quantity
+    radius : astropy quantity
         Optional. However, mandatory if rms parameter is passed.
         If a value is passed in, this is the beam radius value for calculating
         the generated WFE rms to compare with the normalized rms value.
         Default to None.
+
     """
 
     @utils.quantity_input(rms=u.nm, radius=u.meter, incident_angle=u.deg)

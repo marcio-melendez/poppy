@@ -71,6 +71,7 @@ extensions = [
     "sphinx_issues",
     "nbsphinx",
     "numpydoc",
+    "IPython.sphinxext.ipython_console_highlighting",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -98,6 +99,7 @@ exclude_patterns = [
     ".DS_Store",
     "_templates",
     "**.ipynb_checkpoints",
+    "figures/**.ipynb",
 ]
 
 # The name of the Pygments (syntax highlighting) style to use.

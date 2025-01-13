@@ -80,6 +80,7 @@ namespaces = false
 ]
 
 [tool.setuptools_scm]
+local_scheme = "no-local-version"
 write_to = "poppy/version.py"
 write_to_template = "__version__ = '{version}'\n"
 

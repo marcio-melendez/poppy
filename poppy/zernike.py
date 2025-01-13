@@ -321,7 +321,7 @@ def zernike_basis(nterms=15, npix=512, rho=None, theta=None, **kwargs):
     the Zernike is defined are initialized to zero.)
 
     Parameters
-    -----------
+    ----------
     nterms : int, optional
         Number of Zernike terms to return, starting from piston.
         (e.g. ``nterms=1`` would return only the Zernike piston term.)
@@ -375,7 +375,7 @@ def zernike_basis_faster(nterms=15, npix=512, outside=np.nan):
     directly - similarly, use regular zernike_basis for that.
 
     Parameters
-    -----------
+    ----------
     nterms : int, optional
         Number of Zernike terms to return, starting from piston.
         (e.g. ``nterms=1`` would return only the Zernike piston term.)
@@ -456,7 +456,7 @@ def hex_aperture(npix=1024, rho=None, theta=None, vertical=False, outside=0):
     This is appropriate for the individual hex PMSA segments in JWST.
 
     Parameters
-    -----------
+    ----------
     npix : integer
         Size, in pixels, of the aperture array. The hexagon will span
         the whole array from edge to edge in the direction aligned
@@ -740,7 +740,7 @@ def arbitrary_basis(aperture, nterms=15, rho=None, theta=None, outside=np.nan):
     on some other aperture
 
     Parameters
-    -----------
+    ----------
     aperture : 2D array_like
         2D array representing the arbitrary aperture.
         All positive nonzero values are considered within the aperture;
@@ -1053,7 +1053,7 @@ def decompose_opd_nonorthonormal_basis(opd, aperture=None, nterms=15, basis=zern
        as possible.
 
     Parameters
-    -----------
+    ----------
     opd : 2d ndarray
         the OPD you want to fit
     aperture : 2D numpy array, optional
@@ -1116,7 +1116,7 @@ def compose_opd_from_basis(coeffs, basis=zernike_basis_faster, aperture=None, ou
     """ Synthesize an OPD from a set of coefficients
 
     Parameters
-    -----------
+    ----------
     coeffs : list or ndarray
         Coefficients for the Zernike terms
     basis : callable

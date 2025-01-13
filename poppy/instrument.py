@@ -302,7 +302,7 @@ class Instrument(object):
         """Calculate a spectral datacube of PSFs
 
         Parameters
-        -----------
+        ----------
         wavelengths : iterable of floats
             List or ndarray or tuple of floating point wavelengths in meters, such as
             you would supply in a call to calc_psf via the "monochromatic" option
@@ -441,7 +441,8 @@ class Instrument(object):
     def _get_fits_header(self, result, options):
         """ Set instrument-specific FITS header keywords
 
-        Parameters:
+        Parameters
+        ----------
             result : fits.HDUList object
                 The HDUList containing the image to be output.
             options : dict
@@ -711,7 +712,7 @@ class Instrument(object):
         Parameter arguments are taken from the options dictionary.
 
         Parameters
-        -----------
+        ----------
         result : fits.HDUList
             HDU list containing a point spread function
         local_options : dict, optional
@@ -814,7 +815,7 @@ class Instrument(object):
             String name of the filter that you are interested in
 
         Returns
-        --------
+        -------
         a synphot.spectrum.ObservationSpectralElement object for that filter.
 
         """
@@ -846,7 +847,7 @@ class Instrument(object):
         _getSynphotBandpass instead to create a synphot spectrum based on data read from disk, etc.
 
         Returns
-        --------
+        -------
         filterlist : list
             List of string filter names
         bandpasslist : dict

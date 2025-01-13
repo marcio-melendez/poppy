@@ -181,7 +181,7 @@ def fft_2d(wavefront, forward=True, normalization=None, fftshift=True):
     anything.
 
     Parameters
-    -----------
+    ----------
     forward : bool
         set to True for forward FFT, False for inverse fft
         SIGN CONVENTION: Note, forward optical propagation requires an inverse FFT, and

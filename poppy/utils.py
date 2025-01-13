@@ -1711,7 +1711,7 @@ def estimate_optimal_nprocesses(osys, nwavelengths=None, padding_factor=None, me
     NOTE: Requires psutil package. Otherwise defaults to just 4?
 
     Parameters
-    -----------
+    ----------
     osys : OpticalSystem instance
         The optical system that we will be calculating for.
     nwavelengths : int
@@ -1773,7 +1773,7 @@ def fftw_save_wisdom(filename=None):
     (Another location could be chosen - this is simple and works easily cross-platform.)
 
     Parameters
-    ------------
+    ----------
     filename : string, optional
         Filename to use (instead of the default, poppy_fftw_wisdom.json)
     """
@@ -1807,7 +1807,7 @@ def fftw_load_wisdom(filename=None):
     (Another location could be chosen - this is simple and works easily cross-platform.)
 
     Parameters
-    ------------
+    ----------
     filename : string, optional
         Filename to use (instead of the default, poppy_fftw_wisdom.json)
     """

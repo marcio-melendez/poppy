@@ -228,7 +228,7 @@ class ContinuousDeformableMirror(optics.AnalyticOpticalElement):
         """ Set the entire surface shape of the DM.
 
         Parameters
-        -------------
+        ----------
         new_surface : 2d ndarray, or scalar
             Desired DM surface OPD, in meters by default, or use
             the astropy units system to specify a different unit
@@ -244,7 +244,7 @@ class ContinuousDeformableMirror(optics.AnalyticOpticalElement):
         """ Set an individual actuator of the DM.
 
         Parameters
-        -------------
+        ----------
         actx, acty : integers
             Coordinates of the actuator you wish to control
         new_value : float
@@ -252,7 +252,7 @@ class ContinuousDeformableMirror(optics.AnalyticOpticalElement):
             by default or use astropy Units to specify another unit if desired.
 
         Example
-        -----------
+        -------
         dm.set_actuator(12, 22, 123.4*u.nm)
 
         """
@@ -276,7 +276,7 @@ class ContinuousDeformableMirror(optics.AnalyticOpticalElement):
         """ Y and X coordinates for the actuators
 
         Parameters
-        ------------
+        ----------
         one_d : bool
             Return 1-dimensional arrays of coordinates per axis?
             Default is to return 2D arrays with same shape as full array.
@@ -608,7 +608,7 @@ class ContinuousDeformableMirror(optics.AnalyticOpticalElement):
         """ Display the optical surface, viewed as discrete actuators
 
         Parameters
-        ------------
+        ----------
         annotate : bool
             Annotate coordinates and types of actuators on the display? Default false.
         grid : bool
@@ -728,8 +728,9 @@ class SegmentedDeformableMirror(ABC):
     @utils.quantity_input(piston=u.meter, tip=u.radian, tilt=u.radian)
     def set_actuator(self, segnum, piston, tip, tilt):
         """ Set an individual actuator of the DM.
+
         Parameters
-        -------------
+        -----------
         segnum : integer
             Index of the actuator you wish to control
         piston, tip, tilt : floats or astropy Quantities

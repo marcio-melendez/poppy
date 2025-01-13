@@ -27,7 +27,7 @@ class QuadPhase(poppy.optics.AnalyticOpticalElement):
     suitable for representing a radially-dependent wavefront curvature.
 
     Parameters
-    -----------------
+    ----------
     z : float or astropy.Quantity of type length
         radius of curvature
     planetype : poppy.PlaneType constant
@@ -36,7 +36,7 @@ class QuadPhase(poppy.optics.AnalyticOpticalElement):
         Descriptive string name
 
     References
-    -------------------
+    ----------
     Lawrence eq. 88
 
     """
@@ -95,7 +95,7 @@ class _QuadPhaseShifted(QuadPhase):
         """ Return complex phasor, for FFT shifted array
 
         Parameters
-        -----------
+        ----------
         wave : object
             FresnelWavefront instance
         """
@@ -109,7 +109,7 @@ class QuadraticLens(QuadPhase):
     Thin wrapper for QuadPhase
 
     Parameters
-    -----------------
+    ----------
     f_lens : float or astropy.Quantity of type length
         Focal length of this lens
     name : string
@@ -150,7 +150,7 @@ class ConicLens(poppy.optics.CircularAperture):
         Parabolic, elliptical, hyperbolic, or spherical powered optic.
 
         Parameters
-        ----------------
+        ----------
         f_lens : astropy.quantities.Quantity of dimension length
             Focal length of the optic
         K : float
@@ -269,7 +269,7 @@ class FresnelWavefront(BaseWavefront):
 
 
         Parameters
-        --------------------
+        ----------
         beam_radius : astropy.Quantity of type length
             Radius of the illuminated beam at the initial optical plane.
             I.e. this would be the pupil aperture radius in an entrance pupil.
@@ -282,7 +282,7 @@ class FresnelWavefront(BaseWavefront):
 
 
         References
-        -------------------
+        ----------
         - Lawrence, G. N. (1992), Optical Modeling, in Applied Optics and Optical Engineering., vol. XI,
             edited by R. R. Shannon and J. C. Wyant., Academic Press, New York.
 
@@ -443,7 +443,7 @@ class FresnelWavefront(BaseWavefront):
         The gaussian beam radius of curvature as a function of distance z
 
         Parameters
-        -------------
+        ----------
         z : float, optional
             Distance along the optical axis.
             If not specified, the wavefront's current z coordinate will
@@ -466,7 +466,7 @@ class FresnelWavefront(BaseWavefront):
         radius of a propagating gaussian wavefront, at a distance z
 
         Parameters
-        -------------
+        ----------
         z : float, optional
             Distance along the optical axis.
             If not specified, the wavefront's current z coordinate will
@@ -488,7 +488,7 @@ class FresnelWavefront(BaseWavefront):
         plane wavefront
 
         Parameters
-        ------------
+        ----------
         x, y : array_like
             pixel indices
         pixelscale : float or 2-tuple of floats
@@ -645,7 +645,7 @@ class FresnelWavefront(BaseWavefront):
         Transformations from any frame through a rotation plane simply rotate the wavefront accordingly.
 
         Parameters
-        -----------
+        ----------
         optic : OpticalElement
             The optic to propagate to. Used for determining the appropriate optical plane.
         distance : astropy.Quantity of dimension length
@@ -743,7 +743,7 @@ class FresnelWavefront(BaseWavefront):
         ending position will be outside of that.
 
         Parameters
-        -----------
+        ----------
         dz :  float
             the distance from the current location to propagate the beam.
 
@@ -823,7 +823,7 @@ class FresnelWavefront(BaseWavefront):
         Returns True if the input range z is within the Rayleigh range of the waist.
 
         Parameters
-        -----------
+        ----------
         z : float
             distance from the beam waist
 
@@ -1169,7 +1169,7 @@ class FresnelOpticalSystem(BaseOpticalSystem):
     arbitrary optical planes rather than just pupil and image planes.
 
     Parameters
-    -------------
+    ----------
     name : string
         descriptive name of optical system
     pupil_diameter : astropy.Quantity of dimension length
@@ -1200,7 +1200,7 @@ class FresnelOpticalSystem(BaseOpticalSystem):
         """ Add an optic to the optical system
 
         Parameters
-        ---------------
+        ----------
         optic : OpticalElement instance
             Some optic
         distance : astropy.Quantity of dimension length

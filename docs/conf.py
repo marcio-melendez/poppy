@@ -105,6 +105,10 @@ exclude_patterns = [
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = "default"
 
+# -- Options for Extensions --------------------------------------------------
+
+# Do not have autoapi create inheritance diagrams
+automodapi_inheritance_diagram = False
 
 # -- Options for HTML output -------------------------------------------------
 

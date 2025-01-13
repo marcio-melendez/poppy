@@ -13,15 +13,15 @@ For a list of contributors, see :ref:`about`.
 *2025 Jan 13*
 
 **Software Infrastructure Updates and Internals:**
-* PR for Release 0.9.1 by @mperrin in https://github.com/spacetelescope/poppy/pull/364
-* Release 1.0.0 by @mperrin in https://github.com/spacetelescope/poppy/pull/474
-* Release 1.0.1 by @mperrin in https://github.com/spacetelescope/poppy/pull/477
-* Release 1.0.2 by @shanosborne in https://github.com/spacetelescope/poppy/pull/490
-* Release 1.0.3 by @ojustino in https://github.com/spacetelescope/poppy/pull/510
-* V1.1.0 Release by @BradleySappington in https://github.com/spacetelescope/poppy/pull/564
-* 1.1.1 Release docs by @BradleySappington in https://github.com/spacetelescope/poppy/pull/565
-* Test readthedocs by @BradleySappington in https://github.com/spacetelescope/poppy/pull/567
-* v1.1.1 by @BradleySappington in https://github.com/spacetelescope/poppy/pull/566
+ * PR for Release 0.9.1 by @mperrin in https://github.com/spacetelescope/poppy/pull/364
+ * Release 1.0.0 by @mperrin in https://github.com/spacetelescope/poppy/pull/474
+ * Release 1.0.1 by @mperrin in https://github.com/spacetelescope/poppy/pull/477
+ * Release 1.0.2 by @shanosborne in https://github.com/spacetelescope/poppy/pull/490
+ * Release 1.0.3 by @ojustino in https://github.com/spacetelescope/poppy/pull/510
+ * V1.1.0 Release by @BradleySappington in https://github.com/spacetelescope/poppy/pull/564
+ * 1.1.1 Release docs by @BradleySappington in https://github.com/spacetelescope/poppy/pull/565
+ * Test readthedocs by @BradleySappington in https://github.com/spacetelescope/poppy/pull/567
+ * v1.1.1 by @BradleySappington in https://github.com/spacetelescope/poppy/pull/566
 
 
 **Full Changelog**: https://github.com/spacetelescope/poppy/compare/v1.1.0...v1.1.2

@@ -13,19 +13,72 @@ For a list of contributors, see :ref:`about`.
 *2025 Jan 13*
 
 **Software Infrastructure Updates and Internals:**
- * PR for Release 0.9.1 by @mperrin in https://github.com/spacetelescope/poppy/pull/364
- * Release 1.0.0 by @mperrin in https://github.com/spacetelescope/poppy/pull/474
- * Release 1.0.1 by @mperrin in https://github.com/spacetelescope/poppy/pull/477
- * Release 1.0.2 by @shanosborne in https://github.com/spacetelescope/poppy/pull/490
- * Release 1.0.3 by @ojustino in https://github.com/spacetelescope/poppy/pull/510
- * V1.1.0 Release by @BradleySappington in https://github.com/spacetelescope/poppy/pull/564
- * 1.1.1 Release docs by @BradleySappington in https://github.com/spacetelescope/poppy/pull/565
  * Test readthedocs by @BradleySappington in https://github.com/spacetelescope/poppy/pull/567
- * v1.1.1 by @BradleySappington in https://github.com/spacetelescope/poppy/pull/566
+ * Update zernike.py by @mfeldt in https://github.com/spacetelescope/poppy/pull/569
+ * Avoid un-padding Fresnel wavefronts when rotating (fixes #572) by @mperrin in https://github.com/spacetelescope/poppy/pull/573
+ * trivial: remove comment text that mentions a deprecated astropy feature by @mperrin in https://github.com/spacetelescope/poppy/pull/574
+ * Fix CI and ReadtheDocs Build Failures by @BradleySappington in https://github.com/spacetelescope/poppy/pull/581
+ * build(deps): bump astropy from 5.2.2 to 5.3.2 by @dependabot in https://github.com/spacetelescope/poppy/pull/582
+ * build(deps): bump matplotlib from 3.7.1 to 3.7.2 by @dependabot in https://github.com/spacetelescope/poppy/pull/579
+ * build(deps): bump numpy from 1.24.3 to 1.25.2 by @dependabot in https://github.com/spacetelescope/poppy/pull/578
+ * build(deps): bump scipy from 1.10.1 to 1.11.1 by @dependabot in https://github.com/spacetelescope/poppy/pull/576
+ * build(deps): bump scipy from 1.11.1 to 1.11.2 by @dependabot in https://github.com/spacetelescope/poppy/pull/583
+ * Fix Various issues with CI actions by @BradleySappington in https://github.com/spacetelescope/poppy/pull/592
+ * Numpy 2.0 fixes:poly1d and NaN by @braingram in https://github.com/spacetelescope/poppy/pull/585
+ * build(deps): bump matplotlib from 3.7.2 to 3.8.0 by @dependabot in https://github.com/spacetelescope/poppy/pull/586
+ * build(deps): bump numpy from 1.25.2 to 1.26.0 by @dependabot in https://github.com/spacetelescope/poppy/pull/587
+ * build(deps): bump scipy from 1.11.2 to 1.11.3 by @dependabot in https://github.com/spacetelescope/poppy/pull/588
+ * build(deps): bump astropy from 5.3.2 to 5.3.4 by @dependabot in https://github.com/spacetelescope/poppy/pull/593
+ * update actions/checkout to v4 by @BradleySappington in https://github.com/spacetelescope/poppy/pull/597
+ * build(deps): bump matplotlib from 3.8.0 to 3.8.1 by @dependabot in https://github.com/spacetelescope/poppy/pull/598
+ * TST: Use astropy dev from nightly wheel by @pllim in https://github.com/spacetelescope/poppy/pull/596
+ * build(deps): bump numpy from 1.26.0 to 1.26.1 by @dependabot in https://github.com/spacetelescope/poppy/pull/599
+ * unpin sphinx version by @BradleySappington in https://github.com/spacetelescope/poppy/pull/594
+ * build(deps): bump astropy from 5.3.4 to 6.0.0 by @dependabot in https://github.com/spacetelescope/poppy/pull/600
+ * remove use of deprecated _get_optical_system by @braingram in https://github.com/spacetelescope/poppy/pull/595
+ * Update utils.py - add Median Absolute Deviation option to radial_profile by @saikrishanthpm in https://github.com/spacetelescope/poppy/pull/591
+ * use PyPI upload workflow from OpenAstronomy by @zacharyburnett in https://github.com/spacetelescope/poppy/pull/590
+ * add pie wedge segmented aperture by @mperrin in https://github.com/spacetelescope/poppy/pull/604
+ * build(deps): bump numpy from 1.26.2 to 1.26.3 by @dependabot in https://github.com/spacetelescope/poppy/pull/606
+ * update actions version by @zacharyburnett in https://github.com/spacetelescope/poppy/pull/608
+ * build(deps): bump numpy from 1.26.3 to 1.26.4 by @dependabot in https://github.com/spacetelescope/poppy/pull/609
+ * build(deps): bump matplotlib from 3.8.2 to 3.8.3 by @dependabot in https://github.com/spacetelescope/poppy/pull/610
+ * Implement WedgeSegmentedDeformableMirror by @mperrin in https://github.com/spacetelescope/poppy/pull/611
+ * [SCSB-145] require Python 3.10 by @zacharyburnett in https://github.com/spacetelescope/poppy/pull/612
+ * use canonical filename for RTD config by @zacharyburnett in https://github.com/spacetelescope/poppy/pull/613
+ * build(deps): bump astropy from 6.0.0 to 6.0.1 by @dependabot in https://github.com/spacetelescope/poppy/pull/615
+ * Minor: quiet two syntax warnings about string escape sequences by @mperrin in https://github.com/spacetelescope/poppy/pull/616
+ * Add optional progress bar display during PSF and datacube calculations by @mperrin in https://github.com/spacetelescope/poppy/pull/605
+ * build(deps): bump scipy from 1.12.0 to 1.13.0 by @dependabot in https://github.com/spacetelescope/poppy/pull/619
+ * build(deps): bump matplotlib from 3.8.3 to 3.8.4 by @dependabot in https://github.com/spacetelescope/poppy/pull/618
+ * build(deps): bump matplotlib from 3.8.4 to 3.9.0 by @dependabot in https://github.com/spacetelescope/poppy/pull/622
+ * Update intel channel location by @BradleySappington in https://github.com/spacetelescope/poppy/pull/627
+ * Merge Develop to branch by @BradleySappington in https://github.com/spacetelescope/poppy/pull/628
+ * Dependabot merged by @BradleySappington in https://github.com/spacetelescope/poppy/pull/626
+ * build(deps): bump numpy from 1.26.4 to 2.0.0 by @dependabot in https://github.com/spacetelescope/poppy/pull/623
+ * build(deps): bump matplotlib from 3.9.0 to 3.9.1 by @dependabot in https://github.com/spacetelescope/poppy/pull/629
+ * min pin numexpr by @BradleySappington in https://github.com/spacetelescope/poppy/pull/632
+ * use z-range for dependencies in requirements.txt by @BradleySappington in https://github.com/spacetelescope/poppy/pull/637
+ * build(deps): bump scipy from 1.14.0 to 1.14.1 by @dependabot in https://github.com/spacetelescope/poppy/pull/633
+ * fix float comparison bug for non-square subarrays by @mperrin in https://github.com/spacetelescope/poppy/pull/640
+ * Fix an issue with providing astropy Units to calc_datacube by @mperrin in https://github.com/spacetelescope/poppy/pull/639
+ * build(deps): update numexpr requirement from <2.10.0,>=2.9.0 to >=2.9.0,<2.11.0 by @dependabot in https://github.com/spacetelescope/poppy/pull/641
+ * build(deps): update astropy requirement from <6.2.0,>=6.1.2 to >=6.1.2,<7.1.0 by @dependabot in https://github.com/spacetelescope/poppy/pull/644
+ * misc minor fixes by @mperrin in https://github.com/spacetelescope/poppy/pull/617
+ * Allow shifting a detector, in alternative to shifting a source by @mperrin in https://github.com/spacetelescope/poppy/pull/643
+ * Combined Dependabot Updates by @york-stsci in https://github.com/spacetelescope/poppy/pull/650
+ * rename 'wedge' segment shame to 'keystone' by @mperrin in https://github.com/spacetelescope/poppy/pull/647
+ * add outfile option to calc_datacube by @mperrin in https://github.com/spacetelescope/poppy/pull/646
+ * [DRAFT] Documentation Fixes for release by @york-stsci in https://github.com/spacetelescope/poppy/pull/651
+ * Sphinx fixes by @york-stsci in https://github.com/spacetelescope/poppy/pull/652
 
+**New Contributors**
+ * @mfeldt made their first contribution in https://github.com/spacetelescope/poppy/pull/569
+ * @braingram made their first contribution in https://github.com/spacetelescope/poppy/pull/585
+ * @saikrishanthpm made their first contribution in https://github.com/spacetelescope/poppy/pull/591
+ * @york-stsci made their first contribution in https://github.com/spacetelescope/poppy/pull/650
 
-**Full Changelog**: https://github.com/spacetelescope/poppy/compare/v1.1.0...v1.1.2
-
+**Full Changelog**: https://github.com/spacetelescope/poppy/compare/v1.1.1...v1.1.2
 1.1.1
 -----
 

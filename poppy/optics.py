@@ -231,7 +231,7 @@ class AnalyticOpticalElement(OpticalElement):
         saved directly to disk.
 
         Parameters
-        ------------
+        ----------
         what : string
             What quantity to save. See the sample function of this class
         wavelength : float
@@ -849,7 +849,7 @@ class AnnularFieldStop(AnalyticImagePlaneElement):
     """ Defines a circular field stop with an (optional) opaque circular center region
 
     Parameters
-    ------------
+    ----------
     name : string
         Descriptive name
     radius_inner : float
@@ -1474,7 +1474,7 @@ class NgonAperture(AnalyticOpticalElement):
     """ Defines an ideal N-gon pupil aperture.
 
     Parameters
-    -----------
+    ----------
     name : string
         Descriptive name
     nsides : integer
@@ -2004,7 +2004,7 @@ class ThinLens(CircularAperture):
     NOTE - this sign convention was different in prior versions of poppy < 1.0.
 
     Parameters
-    -------------
+    ----------
     nwaves : float
         The number of waves of defocus, peak to valley. May be positive or negative.
         This is applied as a normalization over an area defined by the circumscribing circle

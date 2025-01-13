@@ -576,7 +576,7 @@ def test_source_offsets_in_OpticalSystem(npix=128, fov_size=1, verbose=False):
     and ensure the output PSF appears in the expected location in each case.
 
 
-    Parameters:
+    Parameters
     ----------
     npix : int
         number of pixels

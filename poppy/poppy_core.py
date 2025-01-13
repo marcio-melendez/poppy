@@ -2030,7 +2030,7 @@ class OpticalSystem(BaseOpticalSystem):
             The pupil optic added (either `optic` passed in, or a new OpticalElement created)
 
         Notes
-        ------
+        -----
 
         Now you can use the optic argument for either an OpticalElement or a
         string function name, and it will do the right thing depending on type.
@@ -2473,7 +2473,7 @@ class OpticalElement(object):
             either a scalar wavelength or a Wavefront object
 
         Returns
-        --------
+        -------
         ndarray giving electric field amplitude transmission between 0 - 1.0
 
         """
@@ -2494,7 +2494,7 @@ class OpticalElement(object):
             either a scalar wavelength or a Wavefront object
 
         Returns
-        --------
+        -------
         ndarray giving OPD in meters
 
         """
@@ -3231,7 +3231,7 @@ class FITSOpticalElement(OpticalElement):
             either a scalar wavelength or a Wavefront object
 
         Returns
-        --------
+        -------
         ndarray giving OPD in meters
 
         """

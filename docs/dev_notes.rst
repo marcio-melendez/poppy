@@ -10,7 +10,7 @@ Preparatory
 
 #. Create a clean conda environment with the current poppy python version
 #. Install poppy (including docs) with `pip install -e .[all,test,docs]`. If you use `zsh`
-   you will need to escape the brackets, as `.\[all,test,docs\]`
+   you will need to escape the brackets, as `.\\[all,test,docs\\]`
 #. Install `pandoc` (https://pandoc.org/installing.html)
 #. Install `graphviz` (on a mac, with homebrew, `brew install graphviz`)
 

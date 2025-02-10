@@ -3284,7 +3284,7 @@ class Rotation(CoordinateTransform):
     """ Performs a rotation of the axes in the optical train.
 
     This is not an actual optic itself, of course, but can be used to model
-    a rotated optic by appling a Rotation before and/or after light is incident
+    a rotated optic by applying a Rotation before and/or after light is incident
     on that optic.
 
 
@@ -3416,7 +3416,7 @@ class Detector(OpticalElement):
         #    The implementation in matrixDFT has the sense of "how much should the source be offset",
         #    i.e. an offset of +5 pix moves the source by +5 pix.
         #    However, physically we would like the opposite sign convention:  Moving the detector by +5 pix
-        #    should move the source by -5 pix.  This is implemented by a sign flip multplication by -1
+        #    should move the source by -5 pix.  This is implemented by a sign flip multiplication by -1
         #    which is applied in the _propagate_mft methods. That could just be a hard-coded -1,
         #    but we choose to implement as a named variable to help make this logic clear later to readers of this code:
         self.offset = offset
@@ -3465,7 +3465,7 @@ class Detector(OpticalElement):
                 new_pixelscale = pixelscale * arcsec_per_pixel
             except (ValueError, TypeError):
                 raise ValueError("Argument '{0}' to function '{1}'"
-                                 " must be a number (not '{3}'), and convertable to"
+                                 " must be a number (not '{3}'), and convertible to"
                                  " units='{2}'.".format('pixelscale', 'Detector.__init__',
                                                         arcsec_per_pixel, pixelscale))
 
@@ -3486,7 +3486,7 @@ class Detector(OpticalElement):
         # Case 4: some other units. Raise an error.
         else:
             raise ValueError("Argument '{0}' to function '{1}'"
-                             " must be a number or quantity convertable to"
+                             " must be a number or quantity convertible to"
                              " units=arcsec/pixel or micron/pixel. Note, make sure your pixelscale units are specified per pixel!".format('pixelscale',
                                                                            'Detector.__init__',
                                                                            pixelscale))

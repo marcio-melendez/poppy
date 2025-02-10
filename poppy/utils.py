@@ -56,7 +56,7 @@ __all__ = ['display_psf', 'display_psf_difference', 'display_ee', 'measure_ee', 
 #
 
 def imshow(image, *args, **kwargs):
-    """If needed, fetch array fromm GPU before imshow"""
+    """If needed, fetch array from GPU before imshow"""
     return plt.imshow( accel_math.ensure_not_on_gpu(image),
                        *args, **kwargs)
 
@@ -654,7 +654,7 @@ def radial_profile(hdulist_or_filename=None, ext=0, ee=False, center=None, stdde
     tbin = csim[rind[1:]] - csim[rind[:-1]]  # sum for image values in radius bins
     radialprofile = tbin / nr
 
-    # pre-pend the initial element that the above code misses.
+    # prepend the initial element that the above code misses.
     radialprofile2 = np.empty(len(radialprofile) + 1)
     if rind[0] != 0:
         radialprofile2[0] = csim[rind[0]] / (
@@ -1441,7 +1441,7 @@ class BackCompatibleQuantityInput(object):
                             tmp = np.asarray(arg, dtype=float)
                         except (ValueError, TypeError):
                             raise ValueError("Argument '{0}' to function '{1}'"
-                                             " must be a number (not '{3}'), and convertable to"
+                                             " must be a number (not '{3}'), and convertible to"
                                              " units='{2}'.".format(param.name,
                                                                     wrapped_function.__name__,
                                                                     target_unit.to_string(), arg))
@@ -1452,7 +1452,7 @@ class BackCompatibleQuantityInput(object):
 
                         if not equivalent:
                             raise UnitsError("Argument '{0}' to function '{1}'"
-                                             " must be in units convertable to"
+                                             " must be in units convertible to"
                                              " '{2}'.".format(param.name,
                                                               wrapped_function.__name__,
                                                               target_unit.to_string()))

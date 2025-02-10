@@ -171,7 +171,7 @@ def test_StatisticalPSDWFE(index=3, seed=1234, plot=False):
         tbin = csim[rind[1:]] - csim[rind[:-1]]  # sum for image values in radius bins
         radialprofile = tbin / nr
 
-        # pre-pend the initial element that the above code misses.
+        # prepend the initial element that the above code misses.
         radialprofile2 = np.empty(len(radialprofile) + 1)
         if rind[0] != 0:
             radialprofile2[0] = csim[rind[0]] / (

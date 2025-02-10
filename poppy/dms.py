@@ -888,6 +888,6 @@ class KeystoneSegmentedDeformableMirror(SegmentedDeformableMirror, optics.Keysto
     def _setup_arrays(self, npix, pixelscale, wave=None):
         # Small tweak to the superclass function, to allow invoking slightly better handling for pixels near
         # edges of segments. This approach results in the DM segment maps covering the segment gaps better, to
-        # accomodate 'gray' pixels in the transmission map
+        # accommodate 'gray' pixels in the transmission map
         super()._setup_arrays(npix, pixelscale, wave=wave)
         self._transmission = optics.KeystoneSegmentedCircularAperture.get_transmission(self, wave)

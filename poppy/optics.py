@@ -304,7 +304,7 @@ class AnalyticOpticalElement(OpticalElement):
 
         Shifts are given by default implicitly in meters for pupil optics and arcseconds for image
         plane optics. Shifts may optionally also be given with explicit units using Astropy Quantities,
-        which in this case must be convertable into meters or arcseconds as appropriate.
+        which in this case must be convertible into meters or arcseconds as appropriate.
 
         Rotations and inclinations are given implicitly in degrees.
 

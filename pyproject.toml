@@ -23,9 +23,7 @@ dynamic = [
     "version",
 ]
 readme = "README.rst"
-
-[project.license]
-text = "BSD-3-Clause"
+license-files = ["LICENSE.md"]
 
 [project.optional-dependencies]
 all = [

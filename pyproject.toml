@@ -30,8 +30,10 @@ all = [
     "synphot",
 ]
 test = [
-    "pytest",
+    "pytest>=9",
     "pytest-astropy",
+    "docutils",
+    "sphinx",
 ]
 docs = [
     "nbsphinx",
@@ -49,17 +51,14 @@ Homepage = "https://github.com/spacetelescope/poppy"
 Documentation = "https://poppy-optics.readthedocs.io/"
 "Bug Tracker" = "https://github.com/spacetelescope/poppy/issues"
 
-[tool.pytest.ini_options]
-minversion = "2.2"
-norecursedirs = [
-    "build",
-    "docs/_build",
-]
-testpaths = "poppy docs"
-astropy_header = "true"
+[tool.pytest]
+minversion = "9"
+norecursedirs = ["build", "docs/_build"]
+testpaths = ["poppy", "docs"]
+astropy_header = true
 doctest_plus = "enabled"
 text_file_format = "rst"
-addopts = "-p no:warnings"
+addopts = ["-p no:warnings"]
 
 [tool.setuptools]
 zip-safe = false

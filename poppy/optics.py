@@ -1,10 +1,3 @@
-import numpy as np
-import scipy.special
-import scipy.ndimage
-import matplotlib
-import astropy.io.fits as fits
-import astropy.units as u
-import warnings
 import logging
 import warnings
 from abc import ABC, abstractmethod
@@ -13,7 +6,7 @@ import astropy.io.fits as fits
 import astropy.units as u
 import matplotlib
 import numpy as np
-import scipy.ndimage.interpolation
+import scipy.ndimage
 import scipy.special
 
 from . import accel_math, conf, geometry, utils

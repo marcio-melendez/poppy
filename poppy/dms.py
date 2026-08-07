@@ -7,6 +7,7 @@ from abc import ABC
 import astropy.io.fits as fits
 import astropy.units as u
 import matplotlib.pyplot as plt
+import numpy as np
 import scipy.ndimage
 import scipy.signal
 

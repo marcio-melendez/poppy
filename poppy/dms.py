@@ -8,7 +8,7 @@ import astropy.io.fits as fits
 import astropy.units as u
 import matplotlib.pyplot as plt
 import numpy as np
-import scipy.ndimage.interpolation
+import scipy.ndimage
 import scipy.signal
 
 from . import accel_math, optics, poppy_core, utils

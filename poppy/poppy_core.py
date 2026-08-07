@@ -2892,7 +2892,7 @@ class FITSOpticalElement(OpticalElement):
     rotation : float
         Rotation for that optic, in degrees counterclockwise. This is
         implemented using spline interpolation via the
-        scipy.ndimage.interpolation.rotate function.
+        scipy.ndimage.rotate function.
     pixelscale : optical str or float
         By default, poppy will attempt to determine the appropriate pixel scale
         by examining the FITS header, checking keywords "PIXELSCL", "PUPLSCAL" and/or 'PIXSCALE'.

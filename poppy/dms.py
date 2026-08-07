@@ -3,7 +3,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-import scipy.ndimage.interpolation
+import scipy.ndimage
 import scipy.signal
 import astropy.io.fits as fits
 import astropy.units as u

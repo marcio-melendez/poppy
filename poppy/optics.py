@@ -1,6 +1,6 @@
 import numpy as np
 import scipy.special
-import scipy.ndimage.interpolation
+import scipy.ndimage
 import matplotlib
 import astropy.io.fits as fits
 import astropy.units as u

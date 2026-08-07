@@ -6,15 +6,20 @@ import astropy.io.fits as fits
 import astropy.units as u
 import warnings
 import logging
+import warnings
 from abc import ABC, abstractmethod
 
-from . import utils
-from . import conf
-from .poppy_core import OpticalElement, Wavefront, BaseWavefront, PlaneType, _RADIANStoARCSEC
-from . import geometry
+import astropy.io.fits as fits
+import astropy.units as u
+import matplotlib
+import numpy as np
+import scipy.ndimage.interpolation
+import scipy.special
 
-from . import accel_math
-from .accel_math import xp, _scipy, _exp, _r, _float, _complex
+from . import accel_math, conf, geometry, utils
+from .accel_math import _complex, _float, _r, _scipy, xp
+from .poppy_core import BaseWavefront, OpticalElement, PlaneType, Wavefront
+
 if accel_math._NUMEXPR_AVAILABLE:
     import numexpr as ne
 
@@ -191,7 +196,7 @@ class AnalyticOpticalElement(OpticalElement):
             pixel_scale = fov / (npix * u.pixel)
             w = Wavefront(wavelength=wavelength, npix=npix, pixelscale=pixel_scale)
 
-        _log.info("Computing {0} for {1} sampled onto {2} pixel grid with pixelscale {3}".format(what, self.name, npix, pixel_scale))
+        _log.info(f"Computing {what} for {self.name} sampled onto {npix} pixel grid with pixelscale {pixel_scale}")
         if what == 'amplitude':
             output_array = self.get_transmission(w)
         elif what == 'intensity':
@@ -208,15 +213,15 @@ class AnalyticOpticalElement(OpticalElement):
             else:
                 warnings.warn("'phase_unit' parameter has been deprecated. Use what='opd' instead.",
                               category=DeprecationWarning)
-                raise ValueError('Invalid/unknown phase_unit: {}. Must be one of '
-                                 '[radians, waves, meters]'.format(phase_unit))
+                raise ValueError(f'Invalid/unknown phase_unit: {phase_unit}. Must be one of '
+                                 '[radians, waves, meters]')
         elif what == 'opd':
             output_array = self.get_opd(w)
         elif what == 'complex':
             output_array = self.get_phasor(w)
         else:
-            raise ValueError('Invalid/unknown what to sample: {}. Must be one of '
-                             '[amplitude, intensity, phase, opd, complex]'.format(what))
+            raise ValueError(f'Invalid/unknown what to sample: {what}. Must be one of '
+                             '[amplitude, intensity, phase, opd, complex]')
 
         if return_scale:
             return output_array, pixel_scale
@@ -354,7 +359,7 @@ class ScalarTransmission(AnalyticOpticalElement):
     def __init__(self, name=None, transmission=1.0, **kwargs):
         if name is None:
             name = ("-empty-" if transmission == 1.0 else
-                    "Scalar Transmission of {0}".format(transmission))
+                    f"Scalar Transmission of {transmission}")
         AnalyticOpticalElement.__init__(self, name=name, **kwargs)
         self.transmission = float(transmission)
         self.wavefront_display_hint = 'intensity'
@@ -391,7 +396,7 @@ class InverseTransmission(AnalyticOpticalElement):
     """
 
     def __init__(self, optic=None):
-        super(InverseTransmission, self).__init__()
+        super().__init__()
         if optic is None or not hasattr(optic, 'get_transmission'):
             raise ValueError("Need to supply an valid optic to invert!")
         self.uninverted_optic = optic
@@ -565,7 +570,7 @@ class BandLimitedCoronagraph(AnalyticImagePlaneElement):
                                           -4.59674047e-01, 2.60963397e+00, -9.70881273e+00,
                                           2.36585911e+01, -3.63978587e+01, 3.20703511e+01])
             else:
-                raise NotImplemented("No defined NIRCam wedge BLC mask for that wavelength?  ")
+                raise NotImplementedError("No defined NIRCam wedge BLC mask for that wavelength?  ")
 
             sigmas = numpy.poly1d(polyfitcoeffs)(scalefact)
 
@@ -671,7 +676,7 @@ class CircularPhaseMask(AnalyticImagePlaneElement):
     def __init__(self, name=None, radius=1*u.arcsec, wavelength=1e-6 * u.meter, retardance=0.5,
                  **kwargs):
         if name is None:
-            name = "Phase mask r={:.3g}".format(radius)
+            name = f"Phase mask r={radius:.3g}"
         AnalyticImagePlaneElement.__init__(self, name=name, **kwargs)
         self.wavefront_display_hint = 'phase'  # preferred display for wavefronts at this plane
         self._default_display_size = 4*radius
@@ -699,8 +704,8 @@ class CircularPhaseMask(AnalyticImagePlaneElement):
         npix = (r <= radius).sum()
         if npix < 50:  # pragma: no cover
             import warnings
-            errmsg = "Phase mask is very coarsely sampled: only {} pixels. "\
-                     "Improve sampling for better precision!".format(npix)
+            errmsg = f"Phase mask is very coarsely sampled: only {npix} pixels. "\
+                     "Improve sampling for better precision!"
             warnings.warn(errmsg)
             _log.warn(errmsg)
         return self.opd
@@ -798,7 +803,7 @@ class HexagonFieldStop(AnalyticImagePlaneElement):
             self.side = flattoflat / np.sqrt(3.)
 
         if name is None:
-            name = "Hexagon, side length= {}".format(self.side)
+            name = f"Hexagon, side length= {self.side}"
 
         AnalyticImagePlaneElement.__init__(self, name=name, **kwargs)
 
@@ -908,7 +913,7 @@ class CircularOcculter(AnnularFieldStop):
 
     @utils.quantity_input(radius=u.arcsec)
     def __init__(self, name="unnamed occulter", radius=1.0, **kwargs):
-        super(CircularOcculter, self).__init__(name=name, radius_inner=radius, radius_outer=0.0, **kwargs)
+        super().__init__(name=name, radius_inner=radius, radius_outer=0.0, **kwargs)
         self._default_display_size = 10 * u.arcsec
 
 
@@ -976,8 +981,8 @@ class FQPM_FFT_aligner(AnalyticOpticalElement):
         AnalyticOpticalElement.__init__(self, name=name, planetype=PlaneType.pupil, **kwargs)
         direction = direction.lower()
         if direction != 'forward' and direction != 'backward':
-            raise ValueError("Invalid direction %s, must be either"
-                             "forward or backward." % direction)
+            raise ValueError(f"Invalid direction {direction}, must be either"
+                             "forward or backward.")
         self.direction = direction
         self._suppress_display = True
         self.wavefront_display_hint = 'phase'  # preferred display for wavefronts at this plane
@@ -1028,7 +1033,7 @@ class ParityTestAperture(AnalyticOpticalElement):
 
     @utils.quantity_input(radius=u.meter)
     def __init__(self, name=None, radius=1.0 * u.meter, pad_factor=1.0, **kwargs):
-        if name is None: name = "Asymmetric Parity Test Aperture, radius={}".format(radius)
+        if name is None: name = f"Asymmetric Parity Test Aperture, radius={radius}"
         AnalyticOpticalElement.__init__(self, name=name, planetype=PlaneType.pupil, **kwargs)
         self.radius = radius
         # for creating input wavefronts - let's pad a bit:
@@ -1159,8 +1164,8 @@ class CircularAperture(AnalyticOpticalElement):
                  gray_pixel=True, **kwargs):
 
         if name is None:
-            name = "Circle, radius={}".format(radius)
-        super(CircularAperture, self).__init__(name=name, planetype=planetype, **kwargs)
+            name = f"Circle, radius={radius}"
+        super().__init__(name=name, planetype=planetype, **kwargs)
         if radius <= 0*u.meter:
             raise ValueError("radius must be a positive nonzero number.")
         self.radius = radius
@@ -1221,7 +1226,7 @@ class HexagonAperture(AnalyticOpticalElement):
         self.pupil_diam = 2 * self.side  # for creating input wavefronts
         self._default_display_size = 3 * self.side
         if name is None:
-            name = "Hexagon, side length= {}".format(self.side)
+            name = f"Hexagon, side length= {self.side}"
 
         AnalyticOpticalElement.__init__(self, name=name, planetype=PlaneType.pupil, **kwargs)
 
@@ -1493,7 +1498,7 @@ class NgonAperture(AnalyticOpticalElement):
         self.nsides = nsides
         self.pupil_diam = 2 * self.radius  # for creating input wavefronts
         if name is None:
-            name = "{}-gon, radius= {}".format(self.nsides, self.radius)
+            name = f"{self.nsides}-gon, radius= {self.radius}"
         AnalyticOpticalElement.__init__(self, name=name, planetype=PlaneType.pupil, rotation=rotation, **kwargs)
 
     def get_transmission(self, wave):
@@ -1629,7 +1634,7 @@ class KeystoneSegmentedCircularAperture(MultiSegmentAperture, CircularAperture):
         """
 
         if name is None:
-            name = "Circle of Wedge Sections, radius={}".format(radius)
+            name = f"Circle of Wedge Sections, radius={radius}"
         CircularAperture.__init__(self, name=name, radius=radius, rotation=rotation,
                                   gray_pixel=gray_pixel, **kwargs)
 
@@ -1788,7 +1793,7 @@ class RectangleAperture(AnalyticOpticalElement):
         self.width = width
         self.height = height
         if name is None:
-            name = "Rectangle, size= {s.width:.1f} wide * {s.height:.1f} high".format(s=self)
+            name = f"Rectangle, size= {self.width:.1f} wide * {self.height:.1f} high"
         AnalyticOpticalElement.__init__(self, name=name, planetype=PlaneType.pupil, rotation=rotation, **kwargs)
         # for creating input wavefronts:
         self.pupil_diam = np.sqrt(self.height ** 2 + self.width ** 2)
@@ -1829,7 +1834,7 @@ class SquareAperture(RectangleAperture):
     def __init__(self, name=None, size=1.0 * u.meter, **kwargs):
         self._size = size
         if name is None:
-            name = "Square, side length= {}".format(size)
+            name = f"Square, side length= {size}"
         RectangleAperture.__init__(self, name=name, width=size, height=size, **kwargs)
         self.size = size
         self.pupil_diam = 2 * self.size  # for creating input wavefronts
@@ -1871,7 +1876,7 @@ class SecondaryObscuration(AnalyticOpticalElement):
     def __init__(self, name=None, secondary_radius=0.5 * u.meter, n_supports=4, support_width=0.01 * u.meter,
                  support_angle_offset=0.0, **kwargs):
         if name is None:
-            name = "Secondary Obscuration with {0} supports".format(n_supports)
+            name = f"Secondary Obscuration with {n_supports} supports"
         AnalyticOpticalElement.__init__(self, name=name, planetype=PlaneType.pupil, **kwargs)
         self.secondary_radius = secondary_radius
         self.n_supports = n_supports
@@ -2086,7 +2091,7 @@ class GaussianAperture(AnalyticOpticalElement):
             pupil_diam = 3 * self.fwhm  # for creating input wavefronts
         self.pupil_diam = pupil_diam
         if name is None:
-            name = "Gaussian aperture with fwhm ={0:.2f}".format(self.fwhm)
+            name = f"Gaussian aperture with fwhm ={self.fwhm:.2f}"
         AnalyticOpticalElement.__init__(self, name=name, planetype=PlaneType.pupil, **kwargs)
 
     @property
@@ -2102,7 +2107,7 @@ class GaussianAperture(AnalyticOpticalElement):
 
         r = xp.sqrt(x ** 2 + y ** 2)
 
-        transmission = np.exp((- (r / self.w.to(u.meter).value) ** 2))
+        transmission = np.exp(- (r / self.w.to(u.meter).value) ** 2)
 
         return transmission
 
@@ -2155,7 +2160,7 @@ class KnifeEdge(AnalyticOpticalElement):
     """
     def __init__(self, name=None, rotation=0, **kwargs):
         if name is None:
-            name = "Knife edge at {} deg".format(rotation)
+            name = f"Knife edge at {rotation} deg"
         AnalyticOpticalElement.__init__(self, name=name, rotation=rotation, **kwargs)
 
     def get_transmission(self, wave):
@@ -2323,8 +2328,7 @@ def fixed_sampling_optic(optic, wavefront, oversample=2):
     from .poppy_core import ArrayOpticalElement
     npix = wavefront.shape[0]
     grid_size = npix*u.pixel*wavefront.pixelscale
-    _log.debug("Converting {} to fixed sampling with grid_size={}, npix={}, oversample={}".format(
-        optic.name, grid_size, npix, oversample))
+    _log.debug(f"Converting {optic.name} to fixed sampling with grid_size={grid_size}, npix={npix}, oversample={oversample}")
 
     if oversample > 1:
         _log.debug("retrieving oversampled opd and transmission arrays")

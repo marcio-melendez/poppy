@@ -1,9 +1,9 @@
 import numpy as np
-from poppy import poppy_core
-from poppy import optics
-from poppy import zernike
-from poppy.accel_math import xp as np
+
 import poppy.accel_math
+from poppy import optics, poppy_core, zernike
+from poppy.accel_math import xp as np
+
 
 def test_zernikes_rms(nterms=10, size=500):
     """Verify RMS(Zernike[n,m]) == 1."""
@@ -12,7 +12,7 @@ def test_zernikes_rms(nterms=10, size=500):
         n, m = zernike.noll_indices(j)
         z = zernike.zernike(n, m, npix=size)
         rms = np.nanstd(z)  # exclude masked pixels
-        assert abs(1.0 - rms) < 0.001, "Zernike(j={}) has RMS value of {}".format(j, rms)
+        assert abs(1.0 - rms) < 0.001, f"Zernike(j={j}) has RMS value of {rms}"
 
 
 def test_ones_zernikes(nterms=10):
@@ -21,7 +21,7 @@ def test_ones_zernikes(nterms=10):
     for j in np.arange(nterms) + 1:
         n, m = zernike.noll_indices(j)
         rs = zernike.R(n, m, rho)
-        print("j=%d\tZ_(%d,%d) [1] = \t %s" % (j, n, m, str(rs)))
+        print(f"j={j}\tZ_({n},{m}) [1] = \t {rs}")
         assert rs[0] == rs[1] == rs[2], "Radial polynomial is not radially symmetric"
 
 
@@ -86,8 +86,7 @@ def _test_cross_zernikes(testj=4, nterms=10, npix=500):
         wg = np.where(np.isfinite(prod))
         cross_sum = np.abs(prod[wg].sum())
         assert cross_sum < 1e-9, (
-            "orthogonality failure, Sum[Zernike(j={}) * Zernike(j={})] = {} (> 1e-9)".format(
-                j, testj, cross_sum)
+            f"orthogonality failure, Sum[Zernike(j={j}) * Zernike(j={testj})] = {cross_sum} (> 1e-9)"
         )
 
 
@@ -133,8 +132,7 @@ def _test_cross_hexikes(testj=4, nterms=10, npix=500):
         # Threshold was originally 1e-9, but we ended up getting 1.19e-9 on some machines (not always)
         # this seems acceptable, so relaxing criteria slightly
         assert cross_sum < 2e-9, (
-            "orthogonality failure, Sum[Hexike(j={}) * Hexike(j={})] = {} (> 2e-9)".format(
-                j, testj, cross_sum)
+            f"orthogonality failure, Sum[Hexike(j={j}) * Hexike(j={testj})] = {cross_sum} (> 2e-9)"
         )
 
 
@@ -159,7 +157,7 @@ def test_arbitrary_basis_rms(nterms=10, size=500):
     assert np.nanstd(square_basis[0]) == 0.0, "Mode(j=0) has nonzero RMS"
     for j in range(1, nterms):
         rms = np.nanstd(square_basis[j])  # exclude masked pixels
-        assert abs(1.0 - rms) < 0.001, "Mode(j={}) has RMS value of {}".format(j, rms)
+        assert abs(1.0 - rms) < 0.001, f"Mode(j={j}) has RMS value of {rms}"
 
 
 def _test_cross_arbitrary_basis(testj=4, nterms=10, npix=500):
@@ -194,8 +192,7 @@ def _test_cross_arbitrary_basis(testj=4, nterms=10, npix=500):
         # Threshold was originally 1e-9, but we ended up getting 1.19e-9 on some machines (not always)
         # this seems acceptable, so relaxing criteria slightly
         assert cross_sum < 2e-9, (
-            "orthogonality failure, Sum[Mode(j={}) * Mode(j={})] = {} (> 2e-9)".format(
-                j, testj, cross_sum)
+            f"orthogonality failure, Sum[Mode(j={j}) * Mode(j={testj})] = {cross_sum} (> 2e-9)"
         )
 
 
@@ -255,7 +252,7 @@ def test_hex_aperture():
     for npix in npix_to_try:
         assert np.all(optics.HexagonAperture(side=1).sample(npix=npix, grid_size=2) -
                       zernike.hex_aperture( npix=npix) == 0), \
-                      "hex_aperture and HexagonAperture outputs differ for npix={}".format(npix)
+                      f"hex_aperture and HexagonAperture outputs differ for npix={npix}"
 
 
 def test_zern_name():

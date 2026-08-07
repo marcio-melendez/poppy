@@ -1,15 +1,12 @@
 # Test functions for poppy multiprocessing
 
-from .. import poppy_core
-from .. import optics
-from .. import conf
-from .. import utils
-
-import numpy as np
-import astropy
-import astropy.io.fits as fits
 import sys
 from distutils.version import LooseVersion
+
+import astropy
+import numpy as np
+
+from .. import conf, optics, poppy_core, utils
 
 try:
     import pytest
@@ -86,7 +83,7 @@ if _HAVE_PYTEST:
 
         for i in range(len(planes_single)):
             assert (np.allclose(planes_single[i].intensity, planes_multi[i].intensity)), \
-                "Intermediate plane {} from multiprocessing does not match same plane from single process.".format(i)
+                f"Intermediate plane {i} from multiprocessing does not match same plane from single process."
 
         return psf_single, psf_multi
 

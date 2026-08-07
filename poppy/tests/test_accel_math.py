@@ -1,14 +1,9 @@
 # Test accelerated math functions
 import numpy as np
-import matplotlib
-import matplotlib.pyplot as plt
-import astropy.io.fits as fits
-
 import pytest
 
-from .. import matrixDFT
-from .. import accel_math
-from .. import optics
+from .. import accel_math, matrixDFT, optics
+
 
 @pytest.mark.skipif(accel_math._USE_CUPY, reason="Test not relevant if using CuPy")
 @pytest.mark.skipif(accel_math._NUMEXPR_AVAILABLE is False, reason="numexpr not available")

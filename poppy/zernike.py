@@ -22,22 +22,19 @@ Gram-Schmidt orthonormalization process as applied to this case is
     Mahajan and Dai, 2006. Optics Letters Vol 31, 16, p 2462:
 """
 
-import numpy as np
 import inspect
-from math import factorial
-import scipy
-
-import sys
 import logging
+from functools import lru_cache
+from math import factorial
 
 import astropy.units as u
+import numpy as np
+import scipy
 
 from poppy.poppy_core import Wavefront
 
 from . import accel_math
 from .accel_math import xp
-
-from functools import lru_cache
 
 __all__ = [
     'R', 'cached_zernike1', 'hex_aperture', 'hexike_basis', 'noll_indices',
@@ -75,7 +72,7 @@ def zern_name(i):
     if i < len(names):
         return names[i]
     else:
-        return "Z%d" % i
+        return f"Z{i}"
 
 
 def str_zernike(n, m):
@@ -98,11 +95,11 @@ def str_zernike(n, m):
         if n == 0:
             return "1"
         else:
-            return "sqrt(%d)* ( %s ) " % (n + 1, outstr)
+            return f"sqrt({n+1:d})* ( {outstr} ) "
     elif signed_m > 0:
-        return "\\sqrt{%d}* ( %s ) * \\cos(%d \\theta)" % (2 * (n + 1), outstr, m)
+        return f"\\sqrt{{{2 * (n + 1):d}}}* ( {outstr} ) * \\cos({m} \\theta)"
     else:
-        return "\\sqrt{%d}* ( %s ) * \\sin(%d \\theta)" % (2 * (n + 1), outstr, m)
+        return f"\\sqrt{{{2 * (n + 1):d}}}* ( {outstr} ) * \\sin({m} \\theta)"
 
 
 def noll_indices(j):
@@ -149,7 +146,7 @@ def noll_indices(j):
 
         m = row_m[resid] * sign
 
-    _log.debug("J=%d:\t(n=%d, m=%d)" % (j, n, m))
+    _log.debug(f"J={j:d}:\t(n={n}, m={m})")
     return n, m
 
 
@@ -230,9 +227,9 @@ def zernike(n, m, npix=100, rho=None, theta=None, outside=np.nan,
     if not n >= m:
         raise ValueError("Zernike index m must be >= index n")
     if (n - m) % 2 != 0:
-        _log.warning("Radial polynomial is zero for these inputs: m={}, n={} "
-                  "(are you sure you wanted this Zernike?)".format(m, n))
-    _log.debug("Zernike(n=%d, m=%d)" % (n, m))
+        _log.warning(f"Radial polynomial is zero for these inputs: m={m}, n={n} "
+                  "(are you sure you wanted this Zernike?)")
+    _log.debug(f"Zernike(n={n}, m={m})")
 
     if theta is None and rho is None:
         x = (xp.arange(npix, dtype=xp.float64) - (npix - 1) / 2.) / ((npix - 1) / 2.)
@@ -294,7 +291,7 @@ def zernike1(j, **kwargs):
     return zernike(n, m, **kwargs)
 
 
-@lru_cache()
+@lru_cache
 def cached_zernike1(j, shape, pixelscale, pupil_radius, outside=np.nan, noll_normalize=True):
     """Compute Zernike based on Noll index *j*, using an LRU cache
     for efficiency. Refer to the `zernike1` docstring for details.
@@ -360,7 +357,7 @@ def zernike_basis(nterms=15, npix=512, rho=None, theta=None, **kwargs):
     return zern_output
 
 
-@lru_cache()
+@lru_cache
 def zernike_basis_faster(nterms=15, npix=512, outside=np.nan):
     """
     Return a cube of Zernike terms from 1 to N each as a 2D array
@@ -401,7 +398,7 @@ def zernike_basis_faster(nterms=15, npix=512, outside=np.nan):
     aperture[rho > 1] = 0.0  # this is the aperture mask
     noll_normalize = True
 
-    @lru_cache()
+    @lru_cache
     def cached_R(n, m):
         """Compute R[n, m], the Zernike radial polynomial
 
@@ -575,7 +572,7 @@ def hexike_basis(nterms=15, npix=512, rho=None, theta=None,
             c[(j + 1, k)] = -1 / A * (Z[j + 1] * H[k] * apmask_float).sum()
             if c[(j + 1, k)] != 0:
                 nextG += c[(j + 1, k)] * H[k]
-            _log.debug("    c[%s] = %f", str((j + 1, k)), c[(j + 1, k)])
+            _log.debug("    c[{(j + 1, k)!s}] = {c[(j + 1, k)]}")
 
         nextH = nextG / np.sqrt((nextG ** 2).sum() / A)
 
@@ -782,8 +779,8 @@ def arbitrary_basis(aperture, nterms=15, rho=None, theta=None, outside=np.nan):
 
         # calculate padding for oversizing zernike_basis
         ceil = lambda x: xp.ceil(x) if x > 0 else 0  # avoid negative values
-        padding = (int(ceil((max_extent - (shape[0] - 1) / 2.))),
-                   int(ceil((max_extent - (shape[1] - 1) / 2.))))
+        padding = (int(ceil(max_extent - (shape[0] - 1) / 2.)),
+                   int(ceil(max_extent - (shape[1] - 1) / 2.)))
         padded_shape = (shape[0] + padding[0] * 2, shape[1] + padding[1] * 2)
         npix = padded_shape[0]
 
@@ -825,7 +822,7 @@ def arbitrary_basis(aperture, nterms=15, rho=None, theta=None, outside=np.nan):
 
     return basis
 
-class Segment_PTT_Basis(object):
+class Segment_PTT_Basis:
     def __init__(self, rings=2, flattoflat=1*u.m, gap=1*u.cm, center=False,
                  pupil_diam=None, **kwargs):
         """
@@ -896,7 +893,7 @@ class Segment_PTT_Basis(object):
         if nterms is None:
             nterms = 3*self.nsegments
         elif nterms > 3*self.nsegments:
-            raise ValueError("nterms must be <= {} for the specified segment aperture.".format(3*self.nsegments))
+            raise ValueError(f"nterms must be <= {3*self.nsegments} for the specified segment aperture.")
 
         # Re-use the machinery inside the HexSegmentedDM class to set up the
         # arrays defining the segment and zernike geometry.
@@ -934,7 +931,7 @@ class Segment_Piston_Basis(Segment_PTT_Basis):
         if nterms is None:
             nterms = self.nsegments
         elif nterms > self.nsegments:
-            raise ValueError("nterms must be <= {} for the specified segment aperture.".format(self.nsegments))
+            raise ValueError(f"nterms must be <= {self.nsegments} for the specified segment aperture.")
 
         aperture = self.hexdm.sample(npix=npix)
 
@@ -1106,7 +1103,7 @@ def decompose_opd_nonorthonormal_basis(opd, aperture=None, nterms=15, basis=zern
             opd_copy -= this_coeff * b
             coeffs[i] += this_coeff
         if verbose:
-            print("Iteration {}/{}: {}".format(count, iterations, coeffs))
+            print(f"Iteration {count}/{iterations}: {coeffs}")
 
     return coeffs
 
@@ -1287,7 +1284,7 @@ def decompose_opd_segments(opd, aperture=None, nterms=15, basis=None,
             coeffs[i] += this_coeff
 
         if verbose:
-            print("Iteration {}/{}: {}".format(count, iterations, coeffs))
+            print(f"Iteration {count}/{iterations}: {coeffs}")
     return coeffs
 
 # Back compatibility aliases, for the names in poppy pre 1.0:

@@ -1,7 +1,6 @@
 # Test functions for poppy multiprocessing
 
 import sys
-from distutils.version import LooseVersion
 
 import astropy
 import numpy as np
@@ -23,10 +22,6 @@ if _HAVE_PYTEST:
 
     @pytest.mark.skipif( sys.platform=='win32',
             reason='Multiprocessing forkserver context not supported on Windows')
-    @pytest.mark.skipif( (sys.version_info < (3,4,0) ),
-            reason="Python 3.4 required for reliable forkserver start method")
-    @pytest.mark.skipif(LooseVersion(astropy.__version__) <  LooseVersion('1.0.3'),
-            reason="astropy >=1.0.3 required for tests of multiprocessing")
     def test_basic_multiprocessing():
         """For a simple optical system, test that single process and
         multiprocess calculation give the same results"""
@@ -52,10 +47,6 @@ if _HAVE_PYTEST:
 
     @pytest.mark.skipif( sys.platform=='win32',
             reason='Multiprocessing forkserver context not supported on Windows')
-    @pytest.mark.skipif( (sys.version_info < (3,4,0) ),
-            reason="Python 3.4 required for reliable forkserver start method")
-    @pytest.mark.skipif(LooseVersion(astropy.__version__) <  LooseVersion('1.0.3'),
-            reason="astropy >=1.0.3 required for tests of multiprocessing")
     def test_multiprocessing_intermediate_planes():
         """ Test that using multiprocessing you can retrieve the intermediate planes,
         and they are consistent with the intermediate planes from a

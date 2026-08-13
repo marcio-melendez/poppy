@@ -137,7 +137,7 @@ omit = [
 
 [tool.ruff]
 line-length = 120          # scientific code with array literals often wants more room than 88
-target-version = "py311"   # match whatever you actually run
+target-version = "py312"   # match the minimum supported Python version
 
 [tool.ruff.lint]
 select = [

@@ -37,7 +37,6 @@ test = [
 ]
 docs = [
     "nbsphinx",
-    "pandoc",
     "sphinx",
     "stsci_rtd_theme",
     "sphinx-astropy",

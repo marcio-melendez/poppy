@@ -1027,7 +1027,7 @@ def decompose_opd(opd, aperture=None, nterms=15, basis=zernike_basis,
 
 def decompose_opd_basis_matrix(opd, aperture=None, nterms=15, basis=zernike_basis_faster,
 
-                                       iterations=5, verbose=False, faster_orthogonal = False,  **kwargs):
+                                       verbose=False, faster_orthogonal = False,  **kwargs):
 
     """ Non-iterative version of  decompose_opd, it works for cases where the basis function is
 

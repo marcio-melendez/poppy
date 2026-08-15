@@ -1093,10 +1093,6 @@ def decompose_opd_basis_matrix(opd, aperture=None, nterms=15, basis=zernike_basi
 
         which basis function to use. Defaults to Zernike
 
-    iterations : int
-
-        Number of iterations for convergence. Default is 5
-
     faster_orthogonal = bool
 
         Faster performance for orthogonal case. Default is False

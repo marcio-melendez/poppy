@@ -232,7 +232,7 @@ def test_decompose_opd(npix=512, input_coefficients=(0.1, 0.2, 0.3, 0.4, 0.5)):
 
 
 @pytest.mark.parametrize("aper_shape", ['circle', 'f']) # run test twice for each aperture parameter
-def test_decompose_opd_basis_matrix(npix=512, nterms=10, input_coeffs=(0.1, 0.2, 0.3, 0.4, 0.5), aper_shape='circle'):
+def test_decompose_opd_basis_matrix(npix=512, nterms=10, input_coeffs=(0.1, 0.2, 0.3, 0.4, 0.5), aper_shape):
     """
     Simple test for zernike.decompose_opd_basis_matrix
     Checks that that function can run without errors and that a

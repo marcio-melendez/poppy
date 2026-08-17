@@ -1033,73 +1033,55 @@ def decompose_opd_basis_matrix(opd, aperture=None, nterms=15, basis=zernike_basi
 
     orthonormal and *not* orthonormal. This function calculate the direct answer via matrix multiplications
 
-
-
-    This version is based on David Arostein python code on February 5, 2023. See description below.
-
-    We seek an expression like:
-
-    opd = sum(coeffs[i] * basis_set[i])
-
-    Apply the dot product with basis_set[j] to both sides:
-
-    opd . basis_set[j] = sum(coeffs[i] * basis_set[i]) . basis_set[j]
-
-    When you have an orthogonal basis, this becomes an expression for how to find coeffs[j];
-
-    this is used in the original code, in the "for" loop over iterations:
-
-    this_coeff = (opd_copy * b)[wgood].sum() / ngood
-
-    But when we don't have an orthogonal basis, the equation becomes a matrix equation for the coefficients:
-
-    B * coeffs = opd . basis_set
-
-    with:
-
-    B = a matrix with Bij = basis_set[i] . basis_set[j] = (basis_set[i] * basis_set[j])[wgood].sum()
-
-    f = opd . basis_set is a vector with elements f[i] = (opd * basis_set[i])[wgood].sum()
-
-    and you solve this system for coeffs
-
     Parameters
-
     -----------
-
     opd : 2d ndarray
-
         the OPD you want to fit
-
     aperture : 2D numpy array, optional
-
         Aperture mask for which pixels are included within the aperture.
-
         All positive nonzero values are considered within the aperture;
-
         any pixels with zero, negative, or NaN values will be considered
-
         outside the aperture, and set equal to the 'outside' parameter value.
-
         If this parameter is not set, the aperture will be inferred from
-
-        the finite (i.e. non-NaN) pixels in the OPD array.
-
+        the finite (i.e. non-NaN) pixels in the OPD array.`
     nterms : int
-
         number of terms to fit
-
     basis : function
-
         which basis function to use. Defaults to Zernike
-
     faster_orthogonal = bool
-
         Faster performance for orthogonal case. Default is False
 
+    Other Parameters
+    ----------------
+        Additional keyword arguments to this function are passed through to the `basis` callable.
+
+    Returns
+    -------
+    coeffs : list
+        List of coefficients (of length `nterms`) from which the
+        input OPD map can be constructed in the given basis.
+        (No additional unit conversions are performed. If the input
+        wavefront is in waves, coeffs will be in waves.)
+        Note that the first coefficient (element 0 in Python indexing)
+        corresponds to the Z=1 Zernike piston term, and so on.
+
+    Notes
+    -----
+    This version is based on David Arostein python code on February 5, 2023. See description below.
+    We seek an expression like:
+    opd = sum(coeffs[i] * basis_set[i])
+    Apply the dot product with basis_set[j] to both sides:
+    opd . basis_set[j] = sum(coeffs[i] * basis_set[i]) . basis_set[j]
+    When you have an orthogonal basis, this becomes an expression for how to find coeffs[j];
+    this is used in the original code, in the "for" loop over iterations:
+    this_coeff = (opd_copy * b)[wgood].sum() / ngood
+    But when we don't have an orthogonal basis, the equation becomes a matrix equation for the coefficients:
+    B * coeffs = opd . basis_set
+    with:
+    B = a matrix with Bij = basis_set[i] . basis_set[j] = (basis_set[i] * basis_set[j])[wgood].sum()
+    f = opd . basis_set is a vector with elements f[i] = (opd * basis_set[i])[wgood].sum()
+    and then solve thw system for coeffs
     """
-
-
 
     if aperture is None:
 
@@ -1118,11 +1100,8 @@ def decompose_opd_basis_matrix(opd, aperture=None, nterms=15, basis=zernike_basi
 
 
     # Determine if this basis function accepts an 'aperture' parameter or not
-
     # If so, append that into the function's kwargs. This check is needed to
-
     # handle e.g. both the zernike_basis function (which doesn't accept aperture)
-
     # and hexike_basis or arbitrary_basis (which do).
 
     if 'aperture' in inspect.signature(basis).parameters:

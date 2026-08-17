@@ -1086,85 +1086,40 @@ def decompose_opd_basis_matrix(opd, aperture=None, nterms=15, basis=zernike_basi
     if aperture is None:
 
         _log.warning("No aperture supplied - "
-
                   "using the finite (non-NaN) part of the OPD map as a guess.")
-
         aperture = np.isfinite(opd)
-
-
-
     # any pixels with zero or NaN in the aperture are outside the area
-
     apmask = (np.isfinite(aperture) & (aperture > 0))
-
-
-
     # Determine if this basis function accepts an 'aperture' parameter or not
     # If so, append that into the function's kwargs. This check is needed to
     # handle e.g. both the zernike_basis function (which doesn't accept aperture)
     # and hexike_basis or arbitrary_basis (which do).
-
     if 'aperture' in inspect.signature(basis).parameters:
-
         kwargs['aperture'] = aperture
-
-
-
     basis_set = basis(
-
         nterms=nterms,
-
         npix=opd.shape[0],
-
         outside=np.nan,
-
         **kwargs
-
     )
-
-
-
     wgood = (apmask & np.isfinite(basis_set[1]))
-
     ngood = apmask.sum()
-
-
     b = np.zeros((nterms, nterms))
-
     f = np.zeros(nterms)
-
-
-
     for i, Zi in enumerate(basis_set):
-
-
-
         f[i] = (opd * Zi)[wgood].sum()
-
-
-
         for j, Zj in enumerate(basis_set[:i+1]):
-
             b[i, j] = (Zi * Zj)[wgood].sum()
-
             if i != j:
-
                 b[j, i] = b[i, j]
 
-
-
     binv = np.linalg.pinv(b)
-
-
-
 
     if faster_orthogonal:
         coeffs = [binv[i, i] * fi for i, fi in enumerate(f)]
     else:
         coeffs = np.matmul(binv, f)
-
-
-
+        
     return coeffs
 
 
